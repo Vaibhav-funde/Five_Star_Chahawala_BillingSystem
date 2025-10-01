@@ -1,0 +1,154 @@
+{ 
+"Item":
+[
+  {
+    "id": 1,
+    "name": "Masala Chai",
+    "price": 10,
+    "description": "Aromatic blend of spices with a strong tea base.",
+    "image": "https://www.theflavorbender.com/wp-content/uploads/2021/01/Masala-Chai-9998-2.jpg",
+    "category": "Chai"
+  },
+  {
+    "id": 2,
+    "name": "Ginger Chai",
+    "price": 15,
+    "description": "Soothing and spicy ginger-infused chai.",
+    "image": "https://static.toiimg.com/thumb/57788072.cms?imgsize=208156&width=800&height=800",
+    "category": "Chai"
+  },
+  {
+    "id": 3,
+    "name": "Tulsi Chai",
+    "price": 15,
+    "description": "Refreshing herbal chai with holy basil essence.",
+    "image": "https://budleaf.com/wp-content/uploads/2024/02/Tulsi-Chai-1568x1074.jpeg",
+    "category": "Chai"
+  },
+  {
+    "id": 4,
+    "name": "Ck Bun Maska",
+    "price": 30,
+    "description": "CK's Bun Maska: Soft, buttery bliss in every bite.",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmcjGf1vDgMEcG1eraopAo5sIx1KPDOt3XlQ&s",
+    "category": "Bun"
+  },
+  {
+    "id": 5,
+    "name": "Bun Maska",
+    "price": 30,
+    "description": "Sweet cravings satisfied.",
+    "image": "https://cdn.zeptonow.com/production/tr:w-640,ar-4847-4847,pr-true,f-auto,q-80/cms/product_variant/da583c46-ca24-4afb-a372-3e0a2556898c.jpeg",
+    "category": "Bun"
+  },
+  {
+    "id": 6,
+    "name": "Bun Gulkand",
+    "price": 50,
+    "description": "Bun + Gulkand = Bliss!",
+    "image": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_400/RX_THUMBNAIL/IMAGES/VENDOR/2024/6/26/b3f19b79-bf8f-4761-95b4-76d77e7389eb_915666.jpg",
+    "category": "Bun"
+  },
+  {
+    "id": 7,
+    "name": "Cold Coffee",
+    "price": 50,
+    "description": "Good friends and great coffee make the perfect blend.",
+    "image": "https://www.milkmaid.in/sites/default/files/2024-05/Cold-Coffee-335x300.jpg",
+    "category": "Coffee"
+  },
+  {
+    "id": 8,
+    "name": "Cappuccino",
+    "price": 60,
+    "description": "Rich, foamy delight with every sip.",
+    "image": "https://www.netmeds.com/images/cms/wysiwyg/blog/Post/2018/10/coffee_its_benefits_898_1_.jpg",
+    "category": "Coffee"
+  },
+  {
+    "id": 9,
+    "name": "Espresso",
+    "price": 45,
+    "description": "Strong, bold, and perfect for a quick boost.",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTiXC5UZah9F1l9S30NRB8tH8GDceg5EOktA&s",
+    "category": "Coffee"
+  },
+  {
+    "id": 10,
+    "name": "Latte",
+    "price": 65,
+    "description": "Warm milk meets espresso for a smooth flavor.",
+    "image": "https://static.vecteezy.com/system/resources/previews/049/632/997/non_2x/heart-shaped-latte-art-in-a-white-cup-with-coffee-beans-isolated-on-wooden-table-side-view-of-taiwan-baked-food-photo.jpg",
+    "category": "Coffee"
+  },
+  {
+    "id": 11,
+    "name": "Mocha",
+    "price": 70,
+    "description": "Chocolate and coffee – the sweetest combo.",
+    "image": "https://gatherforbread.com/wp-content/uploads/2014/10/Dark-Chocolate-Mocha-1-683x1024.jpg",
+    "category": "Coffee"
+  },
+  {
+    "id": 12,
+    "name": "Americano",
+    "price": 55,
+    "description": "Coffee and dreams in every steamy cup.",
+    "image": "https://majestycoffee.com/cdn/shop/articles/americano_b74a8154-454b-4f74-9a6c-95fbc4152ed3.jpg?v=1684048195",
+    "category": "Coffee"
+  }
+,
+
+{
+    "id": 13,
+    "name": "Coca-Cola",
+    "price": 25,
+    "description": "Thanda matlab Coca-Cola!",
+    "image": "https://i.pinimg.com/1200x/f9/95/26/f99526974c02e2bffda82dd34e8bc023.jpg",
+    "category": "Cold Drinks"
+  },
+  {
+    "id": 14,
+    "name": "Pepsi",
+    "price": 25,
+    "description": "Live for Now.!",
+    "image": "https://i.pinimg.com/736x/f5/4b/fa/f54bfa6042a3a58411e74635dd9999bc.jpg",
+    "category": "Cold Drinks"
+  },
+   {
+    "id": 15,
+    "name": "Sprite",
+    "price": 25,
+    "description": "Clear Hai",
+    "image": "https://i.pinimg.com/736x/a8/02/b4/a802b4b70caaf89693c5dd95c955b649.jpg",
+    "category": "Cold Drinks"
+  },
+
+   {
+    "id": 16,
+    "name": "Thums Up",
+    "price": 25,
+    "description": "Taste the thunder!",
+    "image": "https://i.pinimg.com/1200x/a6/9c/df/a69cdf9732cb9f305b524695be3c3784.jpg",
+    "category": "Cold Drinks"
+  },
+
+  {
+    "id": 17,
+    "name": "Maaza",
+    "price": 25,
+    "description": "The Mango Drink",
+    "image": "https://cdn.uengage.io/uploads/5/image-179499-1716543145.jpeg",
+    "category": "Cold Drinks"
+  },
+  {
+    "id": 18,
+    "name": "Frooti",
+    "price": 25,
+    "description": "Fresh 'n juicy!",
+    "image": " https://grocygroup.in/wp-content/uploads/2024/06/PRODUCT_1692597035036.webp",
+    "category": "Cold Drinks"
+  }
+ 
+]
+}

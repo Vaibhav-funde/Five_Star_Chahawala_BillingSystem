@@ -1,0 +1,700 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Vaibhav",
+      "email": "user@gmail.com",
+      "password": "12345",
+      "role": "user"
+    },
+    {
+      "id": "2",
+      "name": "HotelAdmin",
+      "email": "admin@gmail.com",
+      "password": "admin123",
+      "role": "hotel"
+    },
+    {
+      "id": "33c2",
+      "name": "A",
+      "email": "a01@gmail.com",
+      "password": "54321",
+      "role": "customer"
+    },
+    {
+      "id": "eb9d",
+      "name": "Vaibhav ",
+      "email": "fundevaibhav02@gmail.com",
+      "password": "1",
+      "role": "customer"
+    },
+    {
+      "id": "dd2b",
+      "name": "Vaibhav Bhaskar Funde",
+      "email": "fundevaibhav02@gmail.com",
+      "password": "1",
+      "role": "customer"
+    }
+  ],
+  "orders": [
+    {
+      "id": "6c27",
+      "username": "Vaibhav ",
+      "items": [
+        {
+          "id": "7",
+          "name": "Cold Coffee",
+          "price": 50,
+          "qty": 2
+        },
+        {
+          "id": "65",
+          "name": "Strawberry Ice Cream",
+          "price": 35,
+          "qty": 4
+        }
+      ],
+      "totalAmount": 240,
+      "orderDate": "2025-09-15T18:31:25.201Z"
+    },
+    {
+      "id": "a772",
+      "username": "A",
+      "items": [
+        {
+          "id": "1",
+          "name": "Masala Chai",
+          "price": 10,
+          "qty": 3
+        }
+      ],
+      "totalAmount": 30,
+      "orderDate": "2025-09-30T17:20:56.201Z",
+      "status": "processed"
+    },
+    {
+      "id": "8fbc",
+      "username": "A",
+      "items": [
+        {
+          "id": "2",
+          "name": "Ginger Chai",
+          "price": 15,
+          "qty": 1
+        }
+      ],
+      "totalAmount": 15,
+      "orderDate": "2025-09-30T17:21:33.957Z",
+      "status": "processed"
+    },
+    {
+      "id": "8614",
+      "username": "A",
+      "items": [],
+      "totalAmount": 0,
+      "orderDate": "2025-09-30T17:24:43.347Z",
+      "status": "processed"
+    },
+    {
+      "id": "5be2",
+      "username": "A",
+      "items": [
+        {
+          "id": "8",
+          "name": "Cappuccino",
+          "price": 60,
+          "qty": 1
+        }
+      ],
+      "totalAmount": 60,
+      "orderDate": "2025-09-30T17:25:40.592Z",
+      "status": "pending"
+    }
+  ],
+  "Item": [
+    {
+      "id": "1",
+      "name": "Masala Chai",
+      "price": 10,
+      "description": "Aromatic blend of spices with a strong tea base.",
+      "image": "https://www.theflavorbender.com/wp-content/uploads/2021/01/Masala-Chai-9998-2.jpg",
+      "category": "Chai"
+    },
+    {
+      "id": "2",
+      "name": "Ginger Chai",
+      "price": 15,
+      "description": "Soothing and spicy ginger-infused chai.",
+      "image": "https://static.toiimg.com/thumb/57788072.cms?imgsize=208156&width=800&height=800",
+      "category": "Chai"
+    },
+    {
+      "id": "3",
+      "name": "Tulsi Chai",
+      "price": 15,
+      "description": "Refreshing herbal chai with holy basil essence.",
+      "image": "https://budleaf.com/wp-content/uploads/2024/02/Tulsi-Chai-1568x1074.jpeg",
+      "category": "Chai"
+    },
+    {
+      "id": "4",
+      "name": "Ck Bun Maska",
+      "price": 30,
+      "description": "CK's Bun Maska: Soft, buttery bliss in every bite.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmcjGf1vDgMEcG1eraopAo5sIx1KPDOt3XlQ&s",
+      "category": "Bun"
+    },
+    {
+      "id": "5",
+      "name": "Bun Maska",
+      "price": 30,
+      "description": "Sweet cravings satisfied.",
+      "image": "https://cdn.zeptonow.com/production/tr:w-640,ar-4847-4847,pr-true,f-auto,q-80/cms/product_variant/da583c46-ca24-4afb-a372-3e0a2556898c.jpeg",
+      "category": "Bun"
+    },
+    {
+      "id": "6",
+      "name": "Bun Gulkand",
+      "price": 50,
+      "description": "Bun + Gulkand = Bliss!",
+      "image": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_400/RX_THUMBNAIL/IMAGES/VENDOR/2024/6/26/b3f19b79-bf8f-4761-95b4-76d77e7389eb_915666.jpg",
+      "category": "Bun"
+    },
+    {
+      "id": "7",
+      "name": "Cold Coffee",
+      "price": 50,
+      "description": "Good friends and great coffee make the perfect blend.",
+      "image": "https://www.milkmaid.in/sites/default/files/2024-05/Cold-Coffee-335x300.jpg",
+      "category": "Coffee"
+    },
+    {
+      "id": "8",
+      "name": "Cappuccino",
+      "price": 60,
+      "description": "Rich, foamy delight with every sip.",
+      "image": "https://www.netmeds.com/images/cms/wysiwyg/blog/Post/2018/10/coffee_its_benefits_898_1_.jpg",
+      "category": "Coffee"
+    },
+    {
+      "id": "9",
+      "name": "Espresso",
+      "price": 45,
+      "description": "Strong, bold, and perfect for a quick boost.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTiXC5UZah9F1l9S30NRB8tH8GDceg5EOktA&s",
+      "category": "Coffee"
+    },
+    {
+      "id": "10",
+      "name": "Latte",
+      "price": 65,
+      "description": "Warm milk meets espresso for a smooth flavor.",
+      "image": "https://static.vecteezy.com/system/resources/previews/049/632/997/non_2x/heart-shaped-latte-art-in-a-white-cup-with-coffee-beans-isolated-on-wooden-table-side-view-of-taiwan-baked-food-photo.jpg",
+      "category": "Coffee"
+    },
+    {
+      "id": "11",
+      "name": "Mocha",
+      "price": 70,
+      "description": "Chocolate and coffee – the sweetest combo.",
+      "image": "https://gatherforbread.com/wp-content/uploads/2014/10/Dark-Chocolate-Mocha-1-683x1024.jpg",
+      "category": "Coffee"
+    },
+    {
+      "id": "12",
+      "name": "Americano",
+      "price": 55,
+      "description": "Coffee and dreams in every steamy cup.",
+      "image": "https://majestycoffee.com/cdn/shop/articles/americano_b74a8154-454b-4f74-9a6c-95fbc4152ed3.jpg?v=1684048195",
+      "category": "Coffee"
+    },
+    {
+      "id": "13",
+      "name": "Coca-Cola",
+      "price": 25,
+      "description": "Thanda matlab Coca-Cola!",
+      "image": "https://i.pinimg.com/1200x/f9/95/26/f99526974c02e2bffda82dd34e8bc023.jpg",
+      "category": "Cold Drinks"
+    },
+    {
+      "id": "14",
+      "name": "Pepsi",
+      "price": 25,
+      "description": "Live for Now.!",
+      "image": "https://i.pinimg.com/736x/f5/4b/fa/f54bfa6042a3a58411e74635dd9999bc.jpg",
+      "category": "Cold Drinks"
+    },
+    {
+      "id": "15",
+      "name": "Sprite",
+      "price": 25,
+      "description": "Clear Hai",
+      "image": "https://i.pinimg.com/736x/a8/02/b4/a802b4b70caaf89693c5dd95c955b649.jpg",
+      "category": "ColdDrinks"
+    },
+    {
+      "id": "16",
+      "name": "Thums Up",
+      "price": 25,
+      "description": "Taste the thunder!",
+      "image": "https://i.pinimg.com/1200x/a6/9c/df/a69cdf9732cb9f305b524695be3c3784.jpg",
+      "category": "Cold Drinks"
+    },
+    {
+      "id": "17",
+      "name": "Maaza",
+      "price": 25,
+      "description": "The Mango Drink",
+      "image": "https://cdn.uengage.io/uploads/5/image-179499-1716543145.jpeg",
+      "category": "Cold Drinks"
+    },
+    {
+      "id": "18",
+      "name": "Frooti",
+      "price": 25,
+      "description": "Fresh 'n juicy!",
+      "image": " https://grocygroup.in/wp-content/uploads/2024/06/PRODUCT_1692597035036.webp",
+      "category": "Cold Drinks"
+    },
+    {
+      "id": "19",
+      "name": "Bisleri",
+      "price": 25,
+      "description": "Bisleri mineral water",
+      "image": " https://content.jdmagicbox.com/comp/def_content_category/mineral-water-dealers-bisleri/mineral-water-dealers-bisleri-2-mineral-water-dealers-bisleri-1-eyv30.jpg",
+      "category": "Cold Drinks"
+    },
+    {
+      "id": "20",
+      "name": "Red Bull Energy Drink",
+      "price": 125,
+      "description": "A popular energy drink that revitalizes body and mind.",
+      "image": "https://images-cdn.ubuy.co.in/6803b0f803694d840e03a1bf-red-bull-energy-drink-16-fl-oz-can.jpg",
+      "category": "Cold Drinks"
+    },
+    {
+      "id": "21",
+      "name": "Kurkure Masala Munch",
+      "price": 10,
+      "description": "Crunchy corn puffs with a spicy masala flavor.",
+      "image": "https://m.media-amazon.com/images/I/51L78-14XsL._UF1000,1000_QL80_.jpg",
+      "category": "Snacks"
+    },
+    {
+      "id": "22",
+      "name": "Lays Magic Masala",
+      "price": 10,
+      "description": "Classic spicy potato chips with magic masala taste.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1ZtftClbMp6iqGtDfIw3gNtxvztWJcuz64g&s",
+      "category": "Snacks"
+    },
+    {
+      "id": "23",
+      "name": "Bingo Mad Angles",
+      "price": 20,
+      "description": "Tangy triangle-shaped chips with a crunchy bite.",
+      "image": "https://www.bbassets.com/media/uploads/p/xl/40331219_1-bingo-mad-angles-red-alert.jpg",
+      "category": "Snacks"
+    },
+    {
+      "id": "24",
+      "name": "Parle Monaco",
+      "price": 5,
+      "description": "Light and crispy salted biscuits.",
+      "image": "https://betweenboxes.in/cdn/shop/files/parle_monaco_front_800x_fd671782-daa2-4f72-a245-97d231d174b6.webp?v=1718108288",
+      "category": "Snacks"
+    },
+    {
+      "id": "25",
+      "name": "Parle KrackJack",
+      "price": 10,
+      "description": "Sweet and salty crunchy biscuits.",
+      "image": "https://frugivore-bucket.s3.amazonaws.com/media/package/img_one/2021-08-03/Parle_Krack_Jack_800gm.jpg",
+      "category": "Snacks"
+    },
+    {
+      "id": "26",
+      "name": "Haldiram’s Aloo Bhujia",
+      "price": 20,
+      "description": "Crispy and spicy potato-based sev.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnG61ljkLMtjVJcCNnna5iPqdQWEh5y2AC4g&s",
+      "category": "Snacks"
+    },
+    {
+      "id": "27",
+      "name": "Popcorn (Butter Salted)",
+      "price": 30,
+      "description": "Fresh popped corn with butter-salt flavor.",
+      "image": "https://www.bbassets.com/media/uploads/p/l/1223836_1-act-ii-popcorn-butter-salted-50-g-each.jpg",
+      "category": "Snacks"
+    },
+    {
+      "id": "28",
+      "name": "Good Day Butter Cookies",
+      "price": 10,
+      "description": "Rich, buttery cookies with melt-in-mouth taste.",
+      "image": "https://m.media-amazon.com/images/I/61FsBt3SB4L._UF1000,1000_QL80_.jpg",
+      "category": "Snacks"
+    },
+    {
+      "id": "29",
+      "name": "Britannia Bourbon",
+      "price": 15,
+      "description": "Chocolate cream biscuits with sugar topping.",
+      "image": "https://media.britannia.co.in/Introducing_the_All_New_Original_Britannia_Bourbon_It_s_Chocolate_Chocolate_Chocolate_HINDI_0_28_screenshot11_9fb018a506.png",
+      "category": "Snacks"
+    },
+    {
+      "id": "30",
+      "name": "Perk Chocolate Wafer",
+      "price": 10,
+      "description": "Light wafer coated with delicious chocolate.",
+      "image": "https://www.bbassets.com/media/uploads/p/l/40338571_1-cadbury-perk-plus-wafer-coated-chocolate-bar.jpg",
+      "category": "Snacks"
+    },
+    {
+      "id": "31",
+      "name": "Haldiram’s Aloo Bhujia (Alternate)",
+      "price": 20,
+      "description": "Crunchy, spicy Indian classic snack.",
+      "image": "https://www.haldiram.com/media/catalog/product/1/_/1_9_2.png?optimize=medium&fit=bounds&height=&width=",
+      "category": "Snacks"
+    },
+    {
+      "id": "32",
+      "name": "Balaji Wafers Salted",
+      "price": 10,
+      "description": "Thin, crispy potato wafers with a classic salted flavor.",
+      "image": "https://m.media-amazon.com/images/I/61XPIMkRrkL._UF350,350_QL80_.jpg",
+      "category": "Snacks"
+    },
+    {
+      "name": "Balaji Wafers Cream & Onion",
+      "price": "5",
+      "description": "Potato wafers with a creamy and tangy onion flavor.",
+      "image": "https://www.balajiwafers.com/cdn/shop/files/Crunchem__Cream_Onion_Wafers_Carousal_01_9fcea2c0-9667-4ce4-b6cf-9ca5a700ddca.jpg?v=1746173813",
+      "category": "Snacks",
+      "id": "33"
+    },
+    {
+      "id": "34",
+      "name": "Balaji Wafers Masala Masti",
+      "price": 15,
+      "description": "Spicy potato wafers with a burst of masala flavor.",
+      "image": "https://www.jiomart.com/images/product/original/490025529/balaji-masala-masti-potato-wafers-135-g-product-images-o490025529-p490025529-0-202411131812.jpg",
+      "category": "Snacks"
+    },
+    {
+      "id": "35",
+      "name": "Balaji Flamin Hot",
+      "price": 20,
+      "description": "Crispy corn nachos coated with rich cheese seasoning.",
+      "image": "data:image/jpeg;base64,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",
+      "category": "Snacks"
+    },
+    {
+      "id": "36",
+      "name": "Balaji Sev Murmura",
+      "price": 10,
+      "description": "Thin, crunchy potato sev Murmura with a light salty flavor.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWpfthnlNJ9Otcu3psUXNR46UFK8G_VRy4vA&s",
+      "category": "Snacks"
+    },
+    {
+      "id": "37",
+      "name": "Goldan Chai",
+      "price": 10,
+      "description": "Goldan Chai",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3RbKgjQAApe5hqhsScR7luWQBPF4ILdc6gQ&s",
+      "category": "Chai"
+    },
+    {
+      "id": "38",
+      "name": "Orange Juice",
+      "price": 60,
+      "description": "Freshly squeezed orange juice, rich in Vitamin C.",
+      "image": "https://img.freepik.com/premium-photo/still-life-with-fresh-orange-juice-glass-with-splashes-drops-juice-is-pouring-from-decanter-into-glass-background-there-is-monstera-sunny-glare-set-3-juices_372268-3.jpg?w=360",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "39",
+      "name": "Apple Juice",
+      "price": 70,
+      "description": "Crisp and refreshing apple juice.",
+      "image": "https://png.pngtree.com/png-clipart/20250221/original/pngtree-an-apple-juice-png-image_20491741.png",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "40",
+      "name": "Pineapple Juice",
+      "price": 65,
+      "description": "Tropical pineapple juice, sweet and tangy.",
+      "image": "https://img.freepik.com/premium-photo/pineapple-juice-with-splashes-with-pineapple-fruit-studio-background-restaurant-with-garden_741910-8027.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "41",
+      "name": "Watermelon Juice",
+      "price": 50,
+      "description": "Cooling and hydrating watermelon juice.",
+      "image": "https://png.pngtree.com/background/20250212/original/pngtree-watermelon-juice-served-in-a-wine-glass-with-slice-of-lime-picture-image_15818313.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "42",
+      "name": "Mango Shake",
+      "price": 80,
+      "description": "Thick and creamy shake made with fresh mangoes.",
+      "image": "https://cdn.zeptonow.com/production/tr:w-640,ar-3920-3920,pr-true,f-auto,q-80/cms/product_variant/a7e6fdf3-2ae5-47fd-a5fb-c4e15f1db46b.jpeg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "43",
+      "name": "Banana Shake",
+      "price": 75,
+      "description": "A healthy and filling shake with fresh bananas.",
+      "image": "https://img.freepik.com/premium-photo/glass-banana-smoothie-with-bananas-table_864588-79463.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "44",
+      "name": "Mixed Fruit Juice",
+      "price": 85,
+      "description": "A blend of seasonal fruits for a burst of flavor.",
+      "image": "https://media.istockphoto.com/id/947356112/photo/drinks.jpg?s=612x612&w=0&k=20&c=F6rwi6wrmNzR60EsWu5Tj_MJDujIUNo8y3jGhKT08xI=",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "45",
+      "name": "Lemonade",
+      "price": 40,
+      "description": "Classic sweet and sour lemonade, perfect for a hot day.",
+      "image": "https://images.squarespace-cdn.com/content/v1/5ed13dd3465af021e2c1342b/a5b1e544-ee89-4268-b9af-ab49e9cc7006/IMG_1986+%281%29.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "46",
+      "name": "Grape Juice",
+      "price": 70,
+      "description": "Rich and sweet juice made from fresh grapes.",
+      "image": "https://www.alphafoodie.com/wp-content/uploads/2022/03/How-to-Make-Grape-Juice-Square.jpeg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "47",
+      "name": "Pomegranate Juice",
+      "price": 90,
+      "description": "Tangy and nutritious juice from pomegranate seeds.",
+      "image": "https://static.vecteezy.com/system/resources/thumbnails/046/937/556/small_2x/pomegranate-juice-and-pomegranate-free-photo.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "48",
+      "name": "Kiwi Crush",
+      "price": 80,
+      "description": "A vibrant and tangy drink made from fresh kiwi.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIhKV0Hb7-YWp4h-3VBqbXKWNf0Yb9FSB-uA&s",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "49",
+      "name": "Strawberry Smoothie",
+      "price": 95,
+      "description": "A creamy and delightful smoothie with fresh strawberries.",
+      "image": "https://gimmedelicious.com/wp-content/uploads/2024/08/Strawberry-Banana-Smoothie-SQ.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "50",
+      "name": "Chocolate Milkshake",
+      "price": 100,
+      "description": "Rich and decadent chocolate milkshake.",
+      "image": "https://www.sugarandsoul.co/wp-content/uploads/2021/04/chocolate-milkshake-8.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "51",
+      "name": "Oreo Shake",
+      "price": 110,
+      "description": "A classic shake blended with Oreo cookies.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqt-HTkOaO4ZzpdQnDrkVVf1X4TgQOrenRvQ&s",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "52",
+      "name": "Fruit Plate",
+      "price": 120,
+      "description": "A healthy and creamy smoothie made with avocado.",
+      "image": "https://t4.ftcdn.net/jpg/15/71/21/97/360_F_1571219727_YdsUysjrPbYm54PI8zc2osd1X1bODra9.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "53",
+      "name": "Guava Juice",
+      "price": 60,
+      "description": "Sweet and aromatic juice from fresh guavas.",
+      "image": "https://tasteofnusa.com/wp-content/uploads/2024/02/guava-juice-2.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "54",
+      "name": "Muskmelon Juice",
+      "price": 55,
+      "description": "A light and refreshing juice made from muskmelon.",
+      "image": "https://img-global.cpcdn.com/recipes/5f4eaa310525f0f5/1200x630cq90/photo.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "55",
+      "name": "Litchi Juice",
+      "price": 70,
+      "description": "Sweet and fragrant juice from fresh litchis.",
+      "image": "https://resize.indiatvnews.com/en/centered/newbucket/1200_675/2024/05/befunky-collage-2024-05-27t205049-1716823253.webp",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "56",
+      "name": "Papaya Shake",
+      "price": 65,
+      "description": "A tropical shake made from ripe papaya.",
+      "image": "https://www.chicagosfoodbank.org/wp-content/uploads/2023/08/papaya-and-banana-smoothie-900x600-1.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "57",
+      "name": "Kesar Badam Milkshake",
+      "price": 130,
+      "description": "Rich and exotic milkshake with saffron and almonds.",
+      "image": "https://cdn.uengage.io/uploads/28289/image-D73Z2X-1742459908.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "58",
+      "name": "Chocolate Smoothie",
+      "price": 90,
+      "description": "A healthy smoothie with cocoa and a hint of banana.",
+      "image": "https://kalejunkie.com/wp-content/uploads/2022/05/ChocolateCookieDoughProteinSmoothie_Shot6_12.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "59",
+      "name": "Chiku ",
+      "price": 75,
+      "description": "A refreshing  Chiku.",
+      "image": "https://dukaan.b-cdn.net/1000x1000/webp/projecteagle/images/6159dd04-9518-4ca3-994b-f8256ae71e00.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "60",
+      "name": "Green Smoothie",
+      "price": 85,
+      "description": "A detoxifying blend of spinach, kale, and fruits.",
+      "image": "https://biancazapatka.com/wp-content/uploads/2022/03/gruener-smoothie.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "61",
+      "name": "Coconut Water",
+      "price": 50,
+      "description": "Pure and natural coconut water.",
+      "image": "https://www.shutterstock.com/image-photo/beach-drinks-image-fresh-coconut-600nw-2464858087.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "62",
+      "name": "Date & Walnut Shake",
+      "price": 115,
+      "description": "A rich and nutty shake for a quick energy boost.",
+      "image": "https://walnuts.org/wp-content/uploads/2019/08/IMG_5126.jpg",
+      "category": "Juice Bar"
+    },
+    {
+      "id": "63",
+      "name": "Vanilla Ice Cream",
+      "price": 30,
+      "description": "Rich and creamy classic vanilla, made with real vanilla beans.",
+      "image": "https://c8.alamy.com/comp/A5KHFD/vanilla-ice-cream-cone-with-chocolate-sprinkles-A5KHFD.jpg",
+      "category": "Ice Cream"
+    },
+    {
+      "id": "64",
+      "name": "Chocolate Ice Cream",
+      "price": 30,
+      "description": "Deep, decadent chocolate ice cream, perfect for chocolate lovers.",
+      "image": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2015/7/21/0/FNK_Chocolate-Dipped-Ice-Cream-Cone_s4x3.jpg.rend.hgtvcom.1280.1280.suffix/1437500974957.webp",
+      "category": "Ice Cream"
+    },
+    {
+      "id": "65",
+      "name": "Strawberry Ice Cream",
+      "price": 35,
+      "description": "Sweet and refreshing strawberry ice cream with real strawberry chunks.",
+      "image": "https://img.freepik.com/premium-psd/chocolate-strawberry-ice-cream-cone-png-isolated-transparent-background_645927-12526.jpg",
+      "category": "Ice Cream"
+    },
+    {
+      "id": "66",
+      "name": "Mint Chocolate Chip",
+      "price": 30,
+      "description": "Cool mint ice cream with crunchy dark chocolate chips.",
+      "image": "https://dinnerthendessert.com/wp-content/uploads/2022/02/Mint-Chocolate-Chip-Ice-Cream-12.jpg",
+      "category": "Ice Cream"
+    },
+    {
+      "id": "67",
+      "name": "Cookies and Cream",
+      "price": 35,
+      "description": "A delightful blend of creamy vanilla and crushed chocolate cookies.",
+      "image": "https://images.squarespace-cdn.com/content/v1/525d98f0e4b0f07bb3deb091/1595432694724-NEKGEOJ07KJ3ZZ249A23/Classic+Cookies+and+Cream+Ice+Cream",
+      "category": "Ice Cream"
+    },
+    {
+      "id": "68",
+      "name": "Butterscotch Ice Cream",
+      "price": 30,
+      "description": "Rich and buttery butterscotch ice cream with a sweet.",
+      "image": "https://www.cookwithmanali.com/wp-content/uploads/2014/11/Indian-Butterscotch-Ice-Cream-No-Churn.jpg",
+      "category": "Ice Cream"
+    },
+    {
+      "id": "69",
+      "name": "Pistachio Ice Cream",
+      "price": 30,
+      "description": "Nutty pistachio ice cream with chunks of roasted pistachios.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3XJ0QiwzajDV3iJ2X0XeG5tnyfP659aydRQ&s",
+      "category": "Ice Cream"
+    },
+    {
+      "id": "70",
+      "name": "Non-Stop",
+      "price": "45",
+      "description": "Non Stop its good",
+      "image": "https://content.jdmagicbox.com/comp/noida/b8/011pxx11.xx11.230824221339.i2b8/catalogue/non-stop-energy-india-noida-gzhtr438t3.jpg",
+      "category": "Cold Drinks"
+    },
+    {
+      "id": "71",
+      "name": "Non-Stop Jungle",
+      "price": "40",
+      "description": "Non Stop its good",
+      "image": "https://m.media-amazon.com/images/I/41U6jbP78fL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
+      "category": "Cold Drinks"
+    },
+    {
+      "id": "72",
+      "name": "Mountain Dew",
+      "price": "40",
+      "description": "Mountain Dew Grip Soft Drink",
+      "image": "https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=450/da/cms-assets/cms/product/b4afa96c-b544-4340-ba29-115752bc1198.png",
+      "category": "Cold Drinks"
+    },
+    {
+      "id": "73",
+      "name": "7up",
+      "price": "40",
+      "description": "7UP Soft Drink",
+      "image": "https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=450/da/cms-assets/cms/product/32569e02-c0bb-4d8f-899d-f7bc1cb1a571.png",
+      "category": "Cold Drinks"
+    }
+  ]
+}
