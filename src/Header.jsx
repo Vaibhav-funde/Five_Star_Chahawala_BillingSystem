@@ -1,112 +1,154 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from 'axios';  // add axios
-import img from './Images/Logo.png';
+import axios from "axios";
+import img from "./Images/NewLogo.png";
 
 function Header() {
-    const [cartCount, setCartCount] = useState(0);
-    const [username, setUsername] = useState(null);
-    const [role, setRole] = useState(null);
-    const [newOrders, setNewOrders] = useState(0); // 🔔 new orders counter
+  const [cartCount, setCartCount] = useState(0);
+  const [username, setUsername] = useState(null);
+  const [role, setRole] = useState(null);
+  const [newOrders, setNewOrders] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    // Fetch new orders periodically
-    const fetchNewOrders = () => {
-        axios.get('http://localhost:5000/orders')  // your JSON server endpoint
-            .then(res => {
-                // Count orders that are 'pending' or unprocessed
-                const pendingOrders = res.data.filter(order => order.status === 'pending').length;
-                setNewOrders(pendingOrders);
-            })
-            .catch(err => console.error("Error fetching orders:", err));
-    };
+  // 🔔 Fetch new orders (hotel)
+  const fetchNewOrders = () => {
+    axios
+      .get("http://localhost:8081/orders")
+      .then((res) => {
+        const pending = res.data.filter(
+          (o) => o.status === "pending"
+        ).length;
+        setNewOrders(pending);
+      })
+      .catch((err) => console.error(err));
+  };
 
-    useEffect(() => {
-        // Cart count
-        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-        setCartCount(cartItems.reduce((sum, item) => sum + item.qty, 0));
+  useEffect(() => {
+    // Cart
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartCount(cart.reduce((sum, i) => sum + i.qty, 0));
 
-        // User details
-        const user = localStorage.getItem("username");
-        const userRole = localStorage.getItem("role");
-        setUsername(user);
-        setRole(userRole);
+    // User
+    setUsername(localStorage.getItem("username"));
+    const r = localStorage.getItem("role");
+    setRole(r);
 
-        // Fetch new orders every 5 seconds
-        if (userRole === 'hotel') {
-            fetchNewOrders();
-            const interval = setInterval(fetchNewOrders, 5000);
-            return () => clearInterval(interval);
-        }
-    }, []);
+    let interval;
+    if (r === "hotel") {
+      fetchNewOrders();
+      interval = setInterval(fetchNewOrders, 10000);
+    }
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
-        window.location.href = "/login";
-    };
+    return () => interval && clearInterval(interval);
+  }, []);
 
-    return (
-        <header className="header-bar">
-            <div className="Logo">
-                <img src={img} alt="5 Star Chahawala" /> 
-            </div>
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/login";
+  };
 
-            <nav className="nav-links">
-                <ul>
-                    {role === "hotel" ? (
-                        <>
-                            <li><Link to="/">Home</Link></li>
-                            <li><Link to="/menu">Menu</Link></li>
-                            <li><Link to="/table">T</Link></li>
-                            <li>
-                                <Link to="/cart" className="order-btn">🛒 Cart ({cartCount})</Link>
-                            </li>
-                            <li><Link to="/addmenu">Add</Link></li>
+  return (
+    <>
+      {/* ================= HEADER ================= */}
+      <header className="header-bar">
+        <div className="Logo">
+          <img src={img} alt="5 Star Chahawala" />
+        </div>
 
-                            {/* Check Orders Button with Notification */}
-                            <li>
-                                <Link to="/hotel-dashboard" className="order-btn">
-                                    Orders {newOrders > 0 && (
-                                        <span className="badge">{newOrders}</span>
-                                    )}
-                                </Link>
-                            </li>
+       
 
-                            <li>
-                                <span className='logout' onClick={handleLogout}>
-                                    Logout <span className="welcome">👨🏻‍💻</span>
-                                </span>
-                            </li>
-                        </>
-                    ) : (
-                        <>
-                            <li><Link to="/">Home</Link></li>
-                            <li><Link to="/menu">Menu</Link></li>
-                            <li><Link to="/about">About</Link></li>
-                            <li><Link to="/contact">Contact</Link></li>
-                            <li><Link to="/rating">Rating</Link></li>
-                            <li>
-                                <Link to="/cart" className="order-btn">🛒 Cart ({cartCount})</Link>
-                            </li>
-                            <div className='username'>
-                                {username ? (
-                                    <span className='logout' onClick={handleLogout}>
-                                        Logout <span className="welcome">👨🏻‍💻</span>
-                                    </span>
-                                ) : (
-                                    <Link to="/login" className="logout">Login</Link>
-                                )}
-                            </div>
-                        </>
-                    )}
-                </ul>
-            </nav>
+        {/* DESKTOP NAV */}
+        <nav className="nav-links">
+          <ul>
+            {role === "hotel" ? (
+              <>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/menu">Menu</Link></li>
+                <li><Link to="/table">Tables</Link></li>
+                <li><Link to="/rating">Rating</Link></li>
+                <li>
+                  <Link to="/cart" className="order-btn">
+                    🛒 Cart ({cartCount})
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/hotel-dashboard" className="order-btn">
+                    Orders {newOrders > 0 && <span className="badge">{newOrders}</span>}
+                  </Link>
+                </li>
+                <li>
+                  <span className="logout" onClick={handleLogout}>
+                    Logout 🧑‍💼
+                  </span>
+                </li>
+              </>
+            ) : (
+              <>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/menu">Menu</Link></li>
+                <li><Link to="/about">About</Link></li>
+                <li><Link to="/contact">Contact</Link></li>
+                <li><Link to="/rating">Rating</Link></li>
+                <li>
+                  <Link to="/cart" className="order-btn">
+                    🛒 Cart ({cartCount})
+                  </Link>
+                </li>
+                <li>
+                  {username ? (
+                    <span className="logout" onClick={handleLogout}>
+                      Logout 👨🏻‍💻
+                    </span>
+                  ) : (
+                    <Link to="/login" className="logout">Login</Link>
+                  )}
+                </li>
+              </>
+            )}
+          </ul>
+        </nav>
 
-            
-            
-        </header>
-    );
+        {/* ✅ MOBILE ICONS */}
+        <div className="mobile-only-icons">
+          <Link to="/cart" className="cart-icon">🛒 {cartCount}</Link>
+          <button className="menu-btn" onClick={() => setMenuOpen(true)}>☰</button>
+        </div>
+      </header>
+
+      {/* ================= MOBILE SIDEBAR ================= */}
+      <div className={`mobile-sidebar ${menuOpen ? "open" : ""}`}>
+        <button className="close-btn" onClick={() => setMenuOpen(false)}>✖</button>
+
+        <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+        <Link to="/menu" onClick={() => setMenuOpen(false)}>Menu</Link>
+        <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
+        <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+        <Link to="/rating" onClick={() => setMenuOpen(false)}>Rating</Link>
+        <Link to="/cart" onClick={() => setMenuOpen(false)}>Cart</Link>
+
+        {role === "hotel" && (
+          <Link to="/hotel-dashboard" onClick={() => setMenuOpen(false)}>
+            Orders ({newOrders})
+          </Link>
+        )}
+
+        {/* 🔓 LOGOUT */}
+        {username ? (
+          <span className="logout" onClick={handleLogout}>Logout</span>
+        ) : (
+          <Link to="/login" onClick={() => setMenuOpen(false)}>Login</Link>
+        )}
+
+        {/* 👤 USER INFO */}
+        {username && (
+          <div className="mobile-user">
+            <span className="user-icon">👤</span>
+            <span className="user-name">{username}</span>
+          </div>
+        )}
+      </div>
+    </>
+  );
 }
 
 export default Header;

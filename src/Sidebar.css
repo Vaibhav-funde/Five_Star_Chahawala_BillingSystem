@@ -1,0 +1,315 @@
+/* ============================
+   GLOBAL RESET
+============================ */
+
+
+/* ============================
+   FIXED SIDEBAR FULL HEIGHT
+============================ */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  background: #111;
+  color: white;
+  padding: 20px 10px;
+  border-right: 2px solid #090909;
+  overflow-y: auto;
+  z-index: 5;
+}
+
+/* Sidebar title */
+.sidebar-title {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffcc00;
+}
+
+/* Sidebar menu */
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin: 12px 0;
+}
+
+.sidebar-menu li a {
+  color: #fff;
+  padding: 15px 18px;
+  display: block;
+  background: #222;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.sidebar-menu li a:hover {
+  background: #ffcc00;
+  color: #111;
+}
+
+/* Logout button */
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: #b52a36;
+}
+
+/* ============================
+   PAGE CONTENT (RIGHT SIDE)
+============================ */
+.content-with-sidebar {
+  margin-left: 260px;   /* PUSH RIGHT */
+  padding: 0 !important; /* NO TOP SPACE */
+  min-height: 100vh;
+  background: #000;
+  overflow: hidden;
+}
+
+/* ============================
+   SALES PAGE MAIN CONTAINER
+============================ */
+.sales-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 !important;      /* START FROM TOP */
+  padding: 25px;
+  background: #000;
+  border-radius: 14px;
+  border: 1px solid #04bb78;
+  box-shadow: 0px 5px 15px rgba(255,255,255,0.05);
+}
+
+/* Heading */
+.sales-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* ============================
+   FILTER BOX
+============================ */
+.filter-box {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filter-select {
+  padding: 10px 12px;
+  border: 1px solid #b41919;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+}
+
+.filter-btn, .reset-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.filter-btn {
+  background: #007bff;
+  color: white;
+}
+
+.filter-btn:hover {
+  background: #005fcc;
+}
+
+.reset-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.reset-btn:hover {
+  background: #565e64;
+}
+
+/* Search */
+.search-box {
+  margin: 15px 0;
+  text-align: right;
+}
+
+.search-input {
+  padding: 8px 12px;
+  width: 250px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #111;
+  color: white;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.top-actions .search-input {
+  flex: 1;
+  max-width: 250px;
+  border: 1px solid #fff;
+}
+
+/* ============================
+   DATE RANGE
+============================ */
+.date-range {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 15px;
+  color: #ffffff;
+}
+
+/* ============================
+   SALES TABLE
+============================ */
+.sales-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border: 1px solid #fff;
+}
+
+.sales-table th {
+  background: #007bff;
+  color: white;
+  padding: 12px;
+  font-size: 15px;
+  border: 1px solid #efeded;
+}
+
+.sales-table td {
+  color: #fff;
+  padding: 10px;
+  border-bottom: 1px solid #444;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid #fff;
+}
+
+.sales-table tr:hover {
+  background: #222;
+}
+
+/* No records */
+.No-records {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #fff;
+}
+
+/* Grand Total */
+.grand-total {
+  background: #111;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+}
+
+/* ============================
+   EXPORT BUTTONS
+============================ */
+.export-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.excel-btn, .pdf-btn {
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.excel-btn {
+  background: #28a745;
+  color: white;
+}
+
+.excel-btn:hover {
+  background: #1f8c39;
+}
+
+.pdf-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.pdf-btn:hover {
+  background: #bb2d3c;
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .content-with-sidebar {
+    margin-left: 220px;
+  }
+
+  .filter-box {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sales-container {
+    padding: 18px;
+  }
+
+  .sales-table th,
+  .sales-table td {
+    font-size: 13px;
+    padding: 8px;
+    border: 2px solid #fff;
+  }
+
+  .export-buttons {
+    flex-direction: column;
+  }
+
+  .excel-btn, .pdf-btn {
+    width: 100%;
+  }
+}

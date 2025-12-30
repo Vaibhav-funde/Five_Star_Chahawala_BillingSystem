@@ -1,40 +1,50 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import img from "./Images/Logo.png";
+import { Link, useNavigate } from "react-router-dom";
+import img from "./Images/NewLogo.png";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
-      // Fetch user from db.json (JSON Server must be running: json-server --watch db.json --port 5000)
-      const res = await axios.get(
-        `http://localhost:5000/users?email=${email}&password=${password}`
-      );
+      const res = await axios.get("http://localhost:8081/api/users/login", {
+        params: { email, password },
+      });
 
-      if (res.data.length === 0) {
-        alert("❌ Invalid credentials");
-        return;
-      }
+      if (res.data.length > 0) {
+        const user = res.data[0];
+        alert(`✅ Login successful! Welcome ${user.name}`);
 
-      const user = res.data[0];
+        // Store login session
+        sessionStorage.setItem("isLoggedIn", "true");
 
-      // Save to localStorage
-      localStorage.setItem("username", user.name);
-      localStorage.setItem("role", user.role);
+        // Store user info
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("username", user.name);
+        localStorage.setItem("email", user.email); // ✅ store email
+        localStorage.setItem("role", user.role);
 
-      // Redirect by role
-      if (user.role === "hotel") {
-        window.location.href = "/hotel-dashboard"; // Hotel Admin Dashboard
+        // Redirect based on role
+        if (user.role === "hotel") {
+          navigate("/hotel-dashboard");
+        }
+        else if (user.role === "admin") {
+          navigate("/Sales");
+        }
+         else {
+          navigate("/");
+        }
       } else {
-        window.location.href = "/menu"; // Normal user goes to Menu
+        alert("❌ Invalid email or password!");
       }
     } catch (err) {
       console.error("Login error:", err);
-      alert("⚠️ Login failed, please try again.");
+      alert("❌ Login failed. Try again.");
     }
   };
 
@@ -43,9 +53,7 @@ function Login() {
       <div className="login-container">
         <div className="login-box">
           <img src={img} alt="5 Star Chahawala" className="logo" />
-          <h2>Welcome Back!</h2>
-          <p>Log in to continue enjoying your chai ☕</p>
-
+          <h2>Log in</h2>
           <form onSubmit={handleLogin}>
             <div className="input-group">
               <label>Email</label>
@@ -67,13 +75,14 @@ function Login() {
               />
             </div>
 
-            <button type="submit" className="btn">
-              Log In
-            </button>
+            <button type="submit" className="btn">Log In</button>
 
             <p className="signup-link">
-              Don't have an account? <Link to="/signup">Sign Up</Link>
+              Don’t have an account? <Link to="/signup">Sign Up</Link>
             </p>
+            <p className="forgot-pass">
+  <Link to="/forgot-password">Forgot password?</Link>
+</p>
           </form>
         </div>
       </div>

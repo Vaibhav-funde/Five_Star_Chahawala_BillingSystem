@@ -27,7 +27,8 @@ function About(){
     <h2>Our Founder's Message</h2>
     <blockquote>
       “Chai is more than just tea — it’s connection, warmth, and a daily ritual. We started 5 Star Chahawala to share that joy with the world.”<br/>
-      — <em>Vaibhav Funde, Founder</em>
+      — <em>Vaibhav Funde, Founder</em><br></br>
+      — <em>Yogesh Garje, Founder</em>
     </blockquote>
   </div>
 </section>
