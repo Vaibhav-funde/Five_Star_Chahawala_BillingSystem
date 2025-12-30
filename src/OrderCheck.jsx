@@ -1,207 +1,248 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "./App.css";
 
 function OrderCheck() {
   const [orders, setOrders] = useState([]);
+  const [newItemIds, setNewItemIds] = useState([]);
+  const prevItemIdsRef = useRef(new Set());
 
-  // Fetch orders from backend
-  const fetchOrders = () => {
-    axios
-      .get("http://localhost:5000/orders")
-      .then((res) => setOrders(res.data))
-      .catch((err) => console.error("Error fetching orders:", err));
+  // 🔄 Fetch Orders
+  const fetchOrders = async () => {
+    try {
+      const res = await axios.get("http://localhost:8081/orders");
+      const newOrders = res.data;
+
+      const currentItemIds = new Set(
+        newOrders.flatMap(order => order.items.map(i => i.id))
+      );
+
+      const newIds = [...currentItemIds].filter(
+        id => !prevItemIdsRef.current.has(id)
+      );
+
+      if (newIds.length > 0) {
+        setNewItemIds(newIds);
+        setTimeout(() => setNewItemIds([]), 5000);
+      }
+
+      prevItemIdsRef.current = currentItemIds;
+      setOrders(newOrders);
+    } catch (err) {
+      console.error("❌ Error fetching orders:", err);
+      alert("Backend not running!");
+    }
   };
 
   useEffect(() => {
     fetchOrders();
+    const interval = setInterval(fetchOrders, 5000);
+    return () => clearInterval(interval);
   }, []);
 
-  // This effect runs whenever `orders` changes
-useEffect(() => {
-  orders.forEach(order => {
-    if (order.status === "pending") {
-      axios
-        .patch(`http://localhost:5000/orders/${order.id}`, { status: "processed" })
-        .catch(err => console.error(err));
-    }
-  });
-}, [orders]);
-
-  // Group orders by user
+  // 👤 Group by user
   const groupByUser = orders.reduce((acc, order) => {
     if (!acc[order.username]) acc[order.username] = [];
     acc[order.username].push(order);
     return acc;
   }, {});
 
-  // Print specific user bill
-  const handlePrint = (user) => {
-    const content = document.getElementById(`bill-${user}`).innerHTML;
-    const printWindow = window.open("", "", "width=800,height=600");
-    printWindow.document.write(`
+  // 💾 Save Sales
+  const saveSales = async (user) => {
+    const userOrders = groupByUser[user];
+    if (!userOrders) return;
+
+    const soldItems = userOrders.flatMap(order =>
+      order.items.map(item => ({
+        itemName: item.name,
+        quantity: item.qty,
+        total: item.price * item.qty
+      }))
+    );
+
+    await axios.post("http://localhost:8081/sales/add-multiple", soldItems);
+  };
+
+  // 🖨️ PRINT + SAVE INVOICE
+  const handlePrint = async (user) => {
+    const userOrders = groupByUser[user];
+    if (!userOrders) return;
+
+    const today = new Date().toLocaleDateString();
+
+    const grandTotal = userOrders.reduce(
+      (sum, order) =>
+        sum + order.items.reduce((s, i) => s + i.price * i.qty, 0),
+      0
+    );
+
+    // ✅ SAVE INVOICE
+    await axios.post("http://localhost:8081/api/invoice/save", {
+      username: user,
+      grandTotal,
+      items: userOrders.flatMap(order =>
+        order.items.map(item => ({
+          itemName: item.name,
+          price: item.price,
+          qty: item.qty,
+          total: item.price * item.qty
+        }))
+      )
+    });
+
+    // 🧾 BILL HTML
+    let rows = "";
+    userOrders.forEach(order => {
+      order.items.forEach(item => {
+        rows += `
+          <tr>
+            <td>${item.name}</td>
+            <td>₹${item.price.toFixed(2)}</td>
+            <td>${item.qty}</td>
+            <td>₹${(item.price * item.qty).toFixed(2)}</td>
+          </tr>
+        `;
+      });
+    });
+
+    const html = `
       <html>
         <head>
-          <title>${user} - Bill</title>
+          <title>${user} Bill</title>
           <style>
-            body { font-family: Arial, sans-serif; padding: 20px; }
-            h2 { text-align: center; color: #007bff; margin: 0; }
-            .bill-header { text-align: center; margin-bottom: 20px; }
-            .bill-header p { margin: 5px 0; }
-            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            th, td { border: 1px solid #000; padding: 8px; }
-            th { background-color: #f4f4f4; text-align: left; }
-            td { text-align: right; }
-            td:nth-child(2) { text-align: left; }
-            td:nth-child(4) { text-align: center; }
-            .total { font-weight: bold; }
-            .bill-footer { text-align: center; margin-top: 20px; font-weight: bold; }
+            body { font-family: Arial; padding: 20px; }
+            h1,h4,p { text-align:center; margin:4px; }
+            table { width:100%; border-collapse:collapse; margin-top:10px; }
+            th,td { border:1px solid black; padding:6px; }
+            th { background:#f4f4f4; }
+            .total { font-weight:bold; }
           </style>
         </head>
         <body>
-          ${content}
+          <h1>5 Star Chahawala</h1>
+          <h4>Walunj, Pathardi</h4>
+          <p>Customer: ${user}</p>
+          <p>Date: ${today}</p>
+
+          <table>
+            <tr>
+              <th>Item</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Total</th>
+            </tr>
+            ${rows}
+            <tr class="total">
+              <td colspan="3">Grand Total</td>
+              <td>₹${grandTotal.toFixed(2)}</td>
+            </tr>
+          </table>
+
+          <p><b>Thank you! ☕</b></p>
         </body>
       </html>
-    `);
-    printWindow.document.close();
-    printWindow.print();
+    `;
+
+    const win = window.open("", "", "width=800,height=600");
+    win.document.write(html);
+    win.document.close();
+    win.print();
+
+    await saveSales(user);
+
+    // 🧹 Clear Orders
+    setOrders(prev => prev.filter(o => o.username !== user));
   };
 
-  // Cancel all orders of a user
-  const handleCancel = (user) => {
-    if (window.confirm(`Are you sure you want to cancel all orders for ${user}?`)) {
-      const userOrders = groupByUser[user];
-      userOrders.forEach((order) => {
-        axios
-          .delete(`http://localhost:5000/orders/${order.id}`)
-          .then(() => {
-            setOrders((prev) => prev.filter((o) => o.id !== order.id));
-          })
-          .catch((err) => console.error("Error deleting order:", err));
-      });
+  // ❌ Cancel User Orders
+  const handleCancel = async (user) => {
+    if (!window.confirm(`Cancel all orders for ${user}?`)) return;
+
+    for (const order of groupByUser[user]) {
+      await axios.delete(`http://localhost:8081/orders/${order.id}`);
     }
+
+    setOrders(prev => prev.filter(o => o.username !== user));
   };
 
-  // New function to cancel a specific item
-  const handleCancelItem = (orderId, itemId) => {
-    setOrders((prevOrders) => {
-      // Create a copy of the previous orders state
-      const newOrders = [...prevOrders];
-      const orderToUpdate = newOrders.find((order) => order.id === orderId);
+  // ❌ Cancel Single Item
+  const handleCancelItem = async (orderId, itemId) => {
+    await axios.delete(`http://localhost:8081/orders/${orderId}/items/${itemId}`);
 
-      if (orderToUpdate) {
-        // Filter out the item to be cancelled
-        const updatedItems = orderToUpdate.items.filter((item) => item.id !== itemId);
-        
-        // If the order has no items left, remove the entire order
-        if (updatedItems.length === 0) {
-          // You would also send a DELETE request to your backend here
-          // axios.delete(`http://localhost:5000/orders/${orderId}`);
-          return newOrders.filter((order) => order.id !== orderId);
-        } else {
-          // Otherwise, update the order's items
-          orderToUpdate.items = updatedItems;
-          // You would also send a PUT or PATCH request to your backend here
-          // axios.put(`http://localhost:5000/orders/${orderId}`, { items: updatedItems });
-        }
-      }
-      return newOrders;
-    });
+    setOrders(prev =>
+      prev
+        .map(o =>
+          o.id === orderId
+            ? { ...o, items: o.items.filter(i => i.id !== itemId) }
+            : o
+        )
+        .filter(o => o.items.length > 0)
+    );
   };
 
   return (
     <div className="dashboard-wrapper">
       <div className="dashboard-container">
         <h2>📋 Hotel Admin Dashboard</h2>
-        <p>Here you can manage and view all user orders separately.</p>
 
         {orders.length === 0 ? (
           <p>No orders yet.</p>
         ) : (
-          Object.keys(groupByUser).map((user, index) => {
+          Object.keys(groupByUser).map(user => {
             const userOrders = groupByUser[user];
-            const subtotal = userOrders.reduce(
-              (sum, order) =>
-                sum + order.items.reduce((s, i) => s + i.price * i.qty, 0),
+            const total = userOrders.reduce(
+              (sum, o) =>
+                sum + o.items.reduce((s, i) => s + i.price * i.qty, 0),
               0
             );
-            const gst = subtotal * 0.18; // 18% GST
-            const grandTotal = subtotal + gst;
 
             return (
-              <div key={index} className="user-sections">
-                <div id={`bill-${user}`} className="bill-containers">
-                  {/* Bill Header */}
-                  <div className="billd">
-                    <h2>5 Star Chaiwala</h2>
-                    <p>Walunj, Tal-Pathardi Dist-Ahilyanagar 414102</p>
-                    <p>Phone No: 7219349467</p>  </div>
-                    <div className="line">
-                    <p className="customer">👤 Customer: {user}</p>
-                    <p className="date">Date: {new Date().toLocaleDateString()}</p>
-                    <p className="bill-no">Bill No: {Math.floor(Math.random() * 1000 + 100)}</p>
-                  </div>
+              <div key={user} className="user-sections">
+                <h3>Customer: {user}</h3>
 
-                  {/* Orders Table */}
-                  <table className="orders-table">
-                    <thead>
-                      <tr>
-                        <th>Order ID</th>
-                        <th>Item Name</th>
-                        <th>Price</th>
-                        <th>Qty</th>
-                        <th>Total</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {userOrders.map((order) =>
-                        order.items.map((item, i) => (
-                          <tr key={`${order.id}-${i}`}>
-                            <td>{order.id}</td>
-                            <td>{item.name}</td>
-                            <td>₹{item.price.toFixed(2)}</td>
-                            <td>{item.qty}</td>
-                            <td>₹{(item.price * item.qty).toFixed(2)}</td>
-                            <td>
-                              <button
-                                onClick={() => handleCancelItem(order.id, item.id)}
-                                className="cancel-item-btn"
-                              >
-                                ❌
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      )}
-                      <tr className="total">
-                        <td colSpan="4">Subtotal</td>
-                        <td>₹{subtotal.toFixed(2)}</td>
-                        <td></td>
-                      </tr>
-                      <tr className="total">
-                        <td colSpan="4">GST (18%)</td>
-                        <td>₹{gst.toFixed(2)}</td>
-                        <td></td>
-                      </tr>
-                      <tr className="total">
-                        <td colSpan="4">Grand Total=</td>
-                        <td>₹{grandTotal.toFixed(2)}</td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <table className="orders-table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Price</th>
+                      <th>Qty</th>
+                      <th>Total</th>
+                      <th>❌</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {userOrders.map(order =>
+                      order.items.map(item => (
+                        <tr
+                          key={item.id}
+                          className={newItemIds.includes(item.id) ? "highlight-new" : ""}
+                        >
+                          <td>{item.name}</td>
+                          <td>₹{item.price}</td>
+                          <td>{item.qty}</td>
+                          <td>₹{item.price * item.qty}</td>
+                          <td>
+                            <button onClick={() => handleCancelItem(order.id, item.id)}>❌</button>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                    <tr className="total">
+                      <td colSpan="3">Grand Total</td>
+                      <td>₹{total}</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
 
-                  <div className="bill-footer">Thank you for visiting 5 Star Chaiwala! ☕</div>
+                <div className="action-buttons">
+                  <button className="print-btn" onClick={() => handlePrint(user)}>
+                    🖨️ Print & Save Bill
+                  </button>
+                  <button className="cancel-btn" onClick={() => handleCancel(user)}>
+                    ❌ Cancel Order
+                  </button>
                 </div>
-
-                <button className="print-btn" onClick={() => handlePrint(user)}>
-                  🖨️ Print {user}'s Bill
-                </button>
-
-                <button className="cancel-btn" onClick={() => handleCancel(user)}>
-                  ❌ Cancel {user}'s Order
-                </button>
               </div>
             );
           })
