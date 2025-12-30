@@ -1,4 +1,4 @@
-import react, { Component } from "react";
+import { Component } from "react";
 import JSON from './Json/Menus.json'
 import Menu from "./Menu";
 import Chaidetail from "./Chaidetail";
