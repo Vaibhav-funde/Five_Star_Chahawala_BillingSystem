@@ -109,7 +109,6 @@ nav ul li a:hover {
     padding: 80px 20px;
     text-align: center;
     color: #d49f19;
-    border: 1px solid rgb(126, 59, 167); /* Added border */
     margin-top: 88px;
 }
 .Hedline{
@@ -155,7 +154,7 @@ nav ul li a:hover {
 .featured-chai {
     padding: 60px 20px;
     text-align: center;
-    border: 1px solid rgb(126, 59, 167); /* Added border */
+   
 }
 
 .featured-chai h2 {
@@ -199,7 +198,7 @@ nav ul li a:hover {
     background-color: #181818;
     padding: 60px 20px;
     text-align: center;
-    border: 1px solid rgb(126, 59, 167); /* Added border */
+  
 }
 
 .special-offers h2 {
@@ -255,7 +254,7 @@ nav ul li a:hover {
     padding: 60px 20px;
     background-color: #1a1a1a;
     text-align: center;
-    border: 1px solid rgb(126, 59, 167); /* Added border */
+   
 }
 
 .how-it-works h2 {
