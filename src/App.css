@@ -155,19 +155,6 @@ body {
   cursor: pointer;
 }
 
-/* ================= RESPONSIVE ================= */
-@media (max-width: 1024px) {
-  .nav-links {
-    display: none;
-  }
-
-  .mobile-only-icons {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-}
-
 
 /* new */ 
 
