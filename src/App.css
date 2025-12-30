@@ -12,149 +12,92 @@ body {
     color: #f5f5f5;
     line-height: 1.6;
 }
-/* ================= HEADER BAR ================= */
-.header-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 90px;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* Header */
+/* Header Fixed at Top */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #141514;
+    color: #fffefe;
+    border: 1px solid black;
 
-  padding: 0 30px;
-  background-color: #141514;
-  color: #ffffff;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.6);
+    position: fixed;   /* FIXED */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;  
+     /* Always above other content */
 }
 
-/* Push content below header */
-body {
-  padding-top: 90px;
+/* Add margin to page content so header does not overlap */
+
+
+
+header .Logo img {
+   height: 60px;
+   width: 110px;
 }
 
-/* ================= LOGO ================= */
-.Logo img {
-  height: 60px;
-  width: auto;
-  object-fit: contain;
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 50px;
+   
 }
 
-/* ================= DESKTOP NAV ================= */
-.nav-links ul {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  gap: 16px;        /* ✅ CONTROLLED spacing */
-  margin: 0;
-  padding: 0;
+nav ul li a {
+    color: #ffec19;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+    background-color: #ffcc00;
+    color: #121212;
+    padding: 10px 20px;
+    margin: 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+
 }
 
-.nav-links ul li {
-  white-space: nowrap;
+nav ul li a:hover {
+    color: #ec0909;
 }
 
-/* NAV BUTTONS */
-.nav-links ul li a {
-  background-color: #ffcc00;
-  color: #121212;
-  padding: 9px 18px;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 15px;
-  transition: all 0.3s ease;
-  margin: 0;        /* ❌ removed margin 20px */
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.nav-links ul li a:hover {
-  background-color: #e0b800;
-  color: #000;
-}
-
-/* ================= CART BUTTON ================= */
 .order-btn {
-  background-color: #ffcc00 !important;
-  color: #121212 !important;
-  padding: 9px 16px !important;
-  border-radius: 30px;
-  font-weight: bold;
-  white-space: nowrap;
+    background-color: #ffcc00;
+    color: #121212;
+    padding: 10px 16px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin: 0 10px;   /* ✔ space between buttons */
+}
+.order-btns{
+    border: rgb(248, 204, 10) 2px solid;
+    color: #eebf06;
+    padding: 10px 16px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin: 0 10px;   /* ✔ space between buttons */
+
 }
 
-/* ================= LOGOUT / LOGIN ================= */
-.logout {
-  cursor: pointer;
-  background-color: transparent;
-  border: 2px solid #ffcc00;
-  color: #ffcc00;
-  padding: 8px 16px;
-  border-radius: 30px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-}
 
-.logout:hover {
-  background-color: #ffcc00;
-  color: #121212;
+.order-btn:hover {
+    background-color: #e0b800;
 }
-
-/* ================= BADGE ================= */
-.badge {
-  background-color: red;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 50%;
-  font-size: 12px;
-  margin-left: 6px;
+.username{
+  margin: auto;
+  padding: auto;
 }
-
-/* ================= MOBILE ICONS (HIDE ON LAPTOP) ================= */
-.mobile-only-icons {
-  display: none;
-}
-
-/* ================= MOBILE SIDEBAR ================= */
-.mobile-sidebar {
-  position: fixed;
-  top: 0;
-  right: -260px;
-  width: 260px;
-  height: 100vh;
-  background-color: #141514;
-  padding: 20px;
-  transition: right 0.3s ease;
-  z-index: 2000;
-}
-
-.mobile-sidebar.open {
-  right: 0;
-}
-
-.mobile-sidebar a,
-.mobile-sidebar span {
-  display: block;
-  color: #ffcc00;
-  padding: 12px 0;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  color: #ffcc00;
-  font-size: 22px;
-  margin-bottom: 20px;
-  cursor: pointer;
-}
-
 
 /* new */ 
 
@@ -166,6 +109,7 @@ body {
     padding: 80px 20px;
     text-align: center;
     color: #d49f19;
+  
     margin-top: 88px;
 }
 .Hedline{
@@ -211,7 +155,7 @@ body {
 .featured-chai {
     padding: 60px 20px;
     text-align: center;
-   
+    
 }
 
 .featured-chai h2 {
@@ -255,7 +199,7 @@ body {
     background-color: #181818;
     padding: 60px 20px;
     text-align: center;
-  
+   
 }
 
 .special-offers h2 {
@@ -311,7 +255,7 @@ body {
     padding: 60px 20px;
     background-color: #1a1a1a;
     text-align: center;
-   
+    
 }
 
 .how-it-works h2 {
