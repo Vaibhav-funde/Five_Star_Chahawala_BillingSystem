@@ -109,83 +109,145 @@ function MenuTable() {
   };
 
   // Filtered items
-  const getFilteredItems = () => {
-    let updated = [...items];
-    if (searchTerm) updated = updated.filter(p => (p?.name || "").toLowerCase().includes(searchTerm.toLowerCase()));
-    if (filterType !== "All") updated = updated.filter(p => (p?.category || "").toLowerCase() === filterType.toLowerCase());
-    if (sortOrder === "asc") updated.sort((a, b) => a.price - b.price);
-    else if (sortOrder === "desc") updated.sort((a, b) => b.price - a.price);
-    return updated;
+ const getFilteredItems = () => {
+  let updated = [...items];
+
+  // 🔍 Search
+  if (searchTerm) {
+    updated = updated.filter(p =>
+      String(p?.name || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+  }
+
+  // 📂 Category filter (FIXED)
+  if (filterType !== "All") {
+    updated = updated.filter(
+      p =>
+        p?.category?.name &&
+        p.category.name.toLowerCase() === filterType.toLowerCase()
+    );
+  }
+
+  // 💰 Sort
+  if (sortOrder === "asc") updated.sort((a, b) => a.price - b.price);
+  else if (sortOrder === "desc") updated.sort((a, b) => b.price - a.price);
+
+  return updated;
+};
+
+
+  // 🧾 SAVE INVOICE (SAME AS ORDERCHECK)
+const saveInvoice = async () => {
+  const tableOrders = orders[activeTable] || [];
+  if (!tableOrders.length) {
+    alert("No items in bill!");
+    return;
+  }
+
+  const grandTotal = tableOrders.reduce(
+    (sum, o) => sum + o.item.price * o.qty,
+    0
+  );
+
+  const invoicePayload = {
+    username: `Table ${activeTable}`, // or waiter name later
+    grandTotal,
+    items: tableOrders.map(o => ({
+      itemName: o.item.name,
+      price: o.item.price,
+      qty: o.qty,
+      total: o.item.price * o.qty
+    }))
   };
+
+  try {
+    await axios.post("http://localhost:8081/api/invoice/save", invoicePayload);
+    console.log("✅ Invoice saved");
+  } catch (err) {
+    console.error("❌ Invoice save failed", err);
+    alert("Invoice not saved!");
+  }
+};
+
 
   return (
     <div className="hotel-container">
       <h2 className="hotel-title">Restaurant Tables</h2>
 
       {/* TABLES */}
-      <div className="table-grid">
-        {tables.map(table => (
-          <div
-            key={table.id}
-            className={`table-card ${activeTable === table.id ? "active" : ""}`}
-            onClick={() => { setActiveTable(table.id); setActiveTab("menu"); }}
-          >
-            Table {table.id}
-            <div className="order-count">
-              {orders[table.id]?.reduce((sum, o) => sum + o.qty, 0) || 0} items
-            </div>
-          </div>
-        ))}
+      {/* TABLES (only when no table selected) */}
+{!activeTable && (
+  <div className="table-grid">
+    {tables.map(table => (
+      <div
+        key={table.id}
+        className="table-card"
+        onClick={() => {
+          setActiveTable(table.id);
+          setActiveTab("menu");
+        }}
+      >
+        Table {table.id}
+        <div className="order-count">
+          {orders[table.id]?.reduce((sum, o) => sum + o.qty, 0) || 0} items
+        </div>
       </div>
+    ))}
+  </div>
+)}
 
+
+    {/* MENU / BILL SECTION */}
       {activeTable && (
         <div className="menu-bill-section">
-          <h3>Table {activeTable}</h3>
 
-          {/* TABS */}
-          <div className="tab-buttons">
-            <button className={activeTab === "menu" ? "active-tab" : ""} onClick={() => setActiveTab("menu")}>Menu</button>
-            <button className={activeTab === "bill" ? "active-tab" : ""} onClick={() => setActiveTab("bill")}>Bill</button>
+          <button className="backbtn" onClick={() => setActiveTable(null)}>
+            ← Back to Tables
+          </button>
+
+          <div className="table-header">
+            <h3>Table {activeTable}</h3>
+            <div className="tab-buttons">
+              <button className={activeTab === "menu" ? "active-tab" : ""} onClick={() => setActiveTab("menu")}>Menu</button>
+              <button className={activeTab === "bill" ? "active-tab" : ""} onClick={() => setActiveTab("bill")}>Bill</button>
+            </div>
           </div>
 
           {/* MENU */}
           {activeTab === "menu" && (
             <>
-              <div className="controls" style={{ display: "flex", gap: "1rem", margin: "1rem 0" }}>
-                <input type="text" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-
-                {/* Dynamic category dropdown */}
-                <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-                  <option value="All">All Types</option>
-                  {categories.map(cat => (
-                    <option key={cat.id} value={cat.name}>{cat.name}</option>
-                  ))}
+              <div className="controls">
+                <input placeholder="Search..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+                <select value={filterType} onChange={e => setFilterType(e.target.value)}>
+                  <option value="All">All</option>
+                  {categories.map(c => <option key={c.id}>{c.name}</option>)}
                 </select>
-
-                <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-                  <option value="default">Sort by Price</option>
+                <select value={sortOrder} onChange={e => setSortOrder(e.target.value)}>
+                  <option value="default">Sort</option>
                   <option value="asc">Low → High</option>
                   <option value="desc">High → Low</option>
                 </select>
               </div>
 
               <div className="chai-container">
-                {getFilteredItems().map(product => (
-                  <div key={product.id} className="chai-card">
-                    <img src={product.image} alt={product.name} />
-                    <h3>{product.name}</h3>
-                    <h4>₹{product.price}</h4>
-                    <p>{product.description}</p>
+                {getFilteredItems().map(p => (
+                  <div className="chai-card" key={p.id}>
+                    <img src={p.image} alt={p.name} />
+                    <h3>{p.name}</h3>
+                    <h4>₹{p.price}</h4>
+                    <p>{p.description}</p>
+                    
 
-                    <input
-                      type="number"
-                      min="1"
-                      value={quantities[product.id] || 1}
-                      onChange={(e) => setQuantities({ ...quantities, [product.id]: parseInt(e.target.value) })}
-                      style={{ width: "40px", marginRight: "8px" }}
-                    />
-
-                    <button className="addbt" onClick={() => handleOrder(activeTable, product)}>Add</button>
+                    <div className="qty-add-row">
+                      <div className="qty-control">
+                        <button className="qty-btn" onClick={() => setQuantities(q => ({ ...q, [p.id]: Math.max(1, (q[p.id] || 1) - 1) }))}>−</button>
+                        <span className="qty-value">{quantities[p.id] || 1}</span>
+                        <button className="qty-btn" onClick={() => setQuantities(q => ({ ...q, [p.id]: (q[p.id] || 1) + 1 }))}>+</button>
+                      </div>
+                      <button className="addbt add-inline" onClick={() => handleOrder(activeTable, p)}>ADD</button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -243,6 +305,7 @@ function MenuTable() {
                 <p>🙏 Thank you for visiting! ☕</p>
                 <button className="print-btn" onClick={async () => {
                   await saveBillToDB();
+                  await saveInvoice();     // 🧾 Invoice table
                   window.print();
                   setTimeout(() => clearBill(activeTable), 800);
                 }}>

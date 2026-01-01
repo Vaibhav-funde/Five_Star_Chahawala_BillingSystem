@@ -77,7 +77,7 @@ function AllUsers() {
               <th>ID</th>
               <th>Name</th>
               <th>Email</th>
-              <th>Password</th>
+             
               <th>Role</th>
               <th>Actions</th>
             </tr>
@@ -88,7 +88,6 @@ function AllUsers() {
                 <td>{user.id}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
-                <td>{user.password}</td>
                 <td>{user.role}</td>
                 <td>
                   <button
