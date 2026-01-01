@@ -100,7 +100,7 @@ function Header() {
                       Logout 👨🏻‍💻
                     </span>
                   ) : (
-                    <Link to="/login" className="logout">Login</Link>
+                    <Link to="/login" className="logout"> Logout 👨🏻‍💻</Link>
                   )}
                 </li>
               </>
