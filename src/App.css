@@ -44,7 +44,7 @@ header .Logo img {
 nav ul {
     display: flex;
     list-style: none;
-    gap: 40px;
+    gap: 20px;
    
 }
 
