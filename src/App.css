@@ -15,7 +15,7 @@ body {
 
 /* Header */
 /* Header Fixed at Top */
-.header-bar {
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;

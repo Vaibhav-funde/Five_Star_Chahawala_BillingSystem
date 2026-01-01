@@ -38,6 +38,7 @@ import ViewCategory from './ViewCategory';
 import Sidebar from "./Sidebar";
 import AddAdvertisement from './AddAdvertisement';
 import CompletedOrders from './CompletedOrders';
+import AdminLogin from "./AdminLogin";
 import ManageAdvertisements from './ManageAdvertisements';
 
 function App() {
@@ -87,7 +88,9 @@ function App() {
           <Route path="/updateadd" element={<ManageAdvertisements />} />
           <Route path="/completedorders" element={<CompletedOrders />} />
           <Route path="/editcategory/:id" element={<EditCategory />} />
-        
+        <Route path="/admin/login" element={<AdminLogin />} />
+  
+
           <Route path="/viewcategory" element={<ViewCategory />} />
 
           <Route path="*" element={<UserNotFound />} />

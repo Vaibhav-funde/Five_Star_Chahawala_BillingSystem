@@ -20,11 +20,15 @@ function Login() {
         const user = res.data[0];
         alert(`✅ Login successful! Welcome ${user.name}`);
 
-        // Store login session
-        sessionStorage.setItem("isLoggedIn", "true");
+        // 🚫 BLOCK ADMIN LOGIN HERE
+      if (user.role === "admin") {
+        alert("❌ Admin cannot log in here. Please use admin login page.");
+        return;
+      }
 
         // Store user info
         localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("username", user.name);
         localStorage.setItem("email", user.email); // ✅ store email
         localStorage.setItem("role", user.role);
@@ -32,9 +36,6 @@ function Login() {
         // Redirect based on role
         if (user.role === "hotel") {
           navigate("/hotel-dashboard");
-        }
-        else if (user.role === "admin") {
-          navigate("/Sales");
         }
          else {
           navigate("/");

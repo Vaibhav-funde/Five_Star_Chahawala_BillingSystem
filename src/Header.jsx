@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import img from "./Images/NewLogo.png";
 
@@ -9,6 +9,8 @@ function Header() {
   const [role, setRole] = useState(null);
   const [newOrders, setNewOrders] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const hideHeaderRoutes = ["/admin", "/admin-login"];
+const location = useLocation(); 
 
   // 🔔 Fetch new orders (hotel)
   const fetchNewOrders = () => {
@@ -23,29 +25,43 @@ function Header() {
       .catch((err) => console.error(err));
   };
 
-  useEffect(() => {
-    // Cart
+   useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const name = localStorage.getItem("username");
+    const userRole = localStorage.getItem("role");
+
+
+    if (isLoggedIn && name) {
+      setUsername(name);
+      setRole(userRole);
+    } else {
+      setUsername(null);
+      setRole(null);
+    }
+
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartCount(cart.reduce((sum, i) => sum + i.qty, 0));
 
-    // User
-    setUsername(localStorage.getItem("username"));
-    const r = localStorage.getItem("role");
-    setRole(r);
-
     let interval;
-    if (r === "hotel") {
+    if (userRole === "hotel") {
       fetchNewOrders();
       interval = setInterval(fetchNewOrders, 10000);
     }
 
     return () => interval && clearInterval(interval);
-  }, []);
+  }, [location.pathname]); // 🔥 FIX
 
   const handleLogout = () => {
     localStorage.clear();
+    setUsername(null);
+    setRole(null);
+    setCartCount(0);
     window.location.href = "/login";
   };
+  
+if (hideHeaderRoutes.includes(location.pathname)) {
+  return null;
+}
 
   return (
     <>
