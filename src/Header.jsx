@@ -107,7 +107,7 @@ if (hideHeaderRoutes.includes(location.pathname)) {
                 <li><Link to="/rating">Rating</Link></li>
                 <li>
                   <Link to="/cart" className="order-btn">
-                    🛒 Cart ({cartCount})
+                    🛒({cartCount})
                   </Link>
                 </li>
                 <li>
