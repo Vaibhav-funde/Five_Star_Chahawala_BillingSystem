@@ -76,7 +76,7 @@ nav ul li a:hover {
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s;
-    margin: 0 10px;   /* ✔ space between buttons */
+    margin: 0 0px;   /* ✔ space between buttons */
 }
 .order-btns{
     border: rgb(248, 204, 10) 2px solid;
@@ -86,7 +86,7 @@ nav ul li a:hover {
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s;
-    margin: 0 10px;   /* ✔ space between buttons */
+    margin: 0 5px;   /* ✔ space between buttons */
 
 }
 

@@ -93,7 +93,7 @@ if (hideHeaderRoutes.includes(location.pathname)) {
                   </Link>
                 </li>
                 <li>
-                  <span className="order-btn" onClick={handleLogout}>
+                  <span className="logout" onClick={handleLogout}>
                     Logout 🧑‍💼
                   </span>
                 </li>
