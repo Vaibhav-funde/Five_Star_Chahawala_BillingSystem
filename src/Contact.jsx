@@ -11,7 +11,7 @@ function Contact() {
   const [message, setMessage] = useState("");
 
 useEffect(() => {
-  const loggedIn = sessionStorage.getItem("isLoggedIn");
+  const loggedIn = localStorage.getItem("isLoggedIn");
   const storedUsername = localStorage.getItem("username");
   const storedEmail = localStorage.getItem("email");
   const storedRole = localStorage.getItem("role");

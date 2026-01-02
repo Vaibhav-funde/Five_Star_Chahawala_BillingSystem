@@ -190,6 +190,7 @@ function OrderCheck() {
         ) : (
           Object.keys(groupByUser).map(user => {
             const userOrders = groupByUser[user];
+            const firstOrderTime = userOrders[0]?.orderDate;
             const total = userOrders.reduce(
               (sum, o) =>
                 sum + o.items.reduce((s, i) => s + i.price * i.qty, 0),
@@ -198,8 +199,21 @@ function OrderCheck() {
 
             return (
               <div key={user} className="user-sections">
-                <h3>Customer: {user}</h3>
-
+               <div className="cd">       
+                  <h3>Customer: {user}</h3>
+                  <h4>
+                    Order Placed:{" "}
+                    {firstOrderTime &&
+                      new Date(firstOrderTime).toLocaleString("en-IN", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true
+                      })}
+                  </h4>
+                </div>     
                 <table className="orders-table">
                   <thead>
                     <tr>

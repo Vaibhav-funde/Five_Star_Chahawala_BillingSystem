@@ -8,7 +8,8 @@ function Rating() {
   
   const navigate = useNavigate();
 
-  const storedUser = sessionStorage.getItem("username") || localStorage.getItem("username") || "";
+ const storedUser = localStorage.getItem("username") || "";
+
 
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
@@ -18,7 +19,7 @@ function Rating() {
   const [hasReviewed, setHasReviewed] = useState(false);
 
   useEffect(() => {
-    const loggedIn = sessionStorage.getItem("isLoggedIn");
+    const loggedIn = localStorage.getItem("isLoggedIn");
     
     const storedRole = localStorage.getItem("role");
   

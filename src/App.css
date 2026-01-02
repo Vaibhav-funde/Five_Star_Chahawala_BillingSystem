@@ -44,7 +44,7 @@ header .Logo img {
 nav ul {
     display: flex;
     list-style: none;
-    gap: 50px;
+
    
 }
 
@@ -57,27 +57,51 @@ nav ul li a {
     color: #121212;
     padding: 10px 20px;
     margin: 20px;
-    border-radius: 30px;
+    border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s;
 
 }
+nav ul li a:hover {
+    background-color: #00e016;
+}
 
 nav ul li a:hover {
-    color: #ec0909;
+    color: #0c0c0c;
 }
 
 .order-btn {
     background-color: #ffcc00;
     color: #121212;
     padding: 10px 16px;
-    border-radius: 30px;
+  
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s;
-    margin: 0 0px;   /* ✔ space between buttons */
+    margin: 0 10px;   /* ✔ space between buttons */
 }
+
+.order-btn:hover {
+    background-color: #00e016;
+}
+
+/* Logout Button */
+.logout {
+  background-color: #ffcc00;
+  color: #121212;
+  padding: 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  margin: 0 10px;   /* ✔ space between buttons */
+}
+.logout:hover {
+  background-color: #1ea112;
+}
+
+
 .order-btns{
     border: rgb(248, 204, 10) 2px solid;
     color: #eebf06;
@@ -86,13 +110,8 @@ nav ul li a:hover {
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s;
-    margin: 0 5px;   /* ✔ space between buttons */
+    margin: 0 10px;   /* ✔ space between buttons */
 
-}
-
-
-.order-btn:hover {
-    background-color: #e0b800;
 }
 .username{
   margin: auto;
@@ -1742,17 +1761,6 @@ footer {
 
 
 
-/* Logout Button */
-.logout {
-  background-color: #ffcc00;
-  color: #121212;
-  padding:10px;
-  border-radius: 20px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
-
 
 /*AdminDashborad*/
 .dashboard {
@@ -2293,7 +2301,9 @@ color: #000; }
      }
             
  
-
+.cd{
+  color: rgb(14, 14, 14);
+}
 /* orderplaced Sucessfull*/
 /* src/OrderSuccess.css */
 
@@ -2918,7 +2928,7 @@ textarea {
 }
 
 .sales-table tr:hover {
-  background: #222; /* changed */
+  background: #1e8c57; /* changed */
 }
 
 .No-records {

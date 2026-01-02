@@ -218,6 +218,7 @@ const saveInvoice = async () => {
           {/* MENU */}
           {activeTab === "menu" && (
             <>
+            <h2>☕ Menu List</h2>
               <div className="controls">
                 <input placeholder="Search..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
                 <select value={filterType} onChange={e => setFilterType(e.target.value)}>

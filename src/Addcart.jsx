@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
+import axios from "axios";
 import autoTable from "jspdf-autotable";
 import "./App.css";
 
@@ -13,7 +14,8 @@ function Addcart() {
 
 
   useEffect(() => {
-     const loggedIn = sessionStorage.getItem("isLoggedIn");
+     const loggedIn = localStorage.getItem("isLoggedIn");
+
      
      const storedRole = localStorage.getItem("role");
    
@@ -62,6 +64,28 @@ const saveBillToDB = async () => {
     alert("❌ Could not store bill! Check backend logs.");
   }
 };
+
+// ✅ SAVE INVOICE TO DATABASE (Hotel Only)
+  const saveInvoiceForHotel = async () => {
+    if (role !== "hotel" || !cartItems.length) return;
+
+    try {
+      await axios.post("http://localhost:8081/api/invoice/save", {
+        username,
+        grandTotal: subtotal,
+        items: cartItems.map((item) => ({
+          itemName: item.name,
+          price: item.price,
+          qty: item.qty,
+          total: item.price * item.qty,
+        })),
+      });
+      alert("✅ Invoice saved to database!");
+    } catch (err) {
+      console.error("❌ Error saving invoice:", err);
+      alert("❌ Could not save invoice!");
+    }
+  };
 
 // 📄 GENERATE INVOICE PDF (DOWNLOAD)
  const generateInvoicePDF = () => {
@@ -177,7 +201,7 @@ const saveBillToDB = async () => {
         return;
       }
        generateInvoicePDF(); 
-       saveBillToDB();
+     
 
 
       await fetch("http://localhost:8081/orders/send-invoice", {
@@ -269,6 +293,7 @@ const saveBillToDB = async () => {
   onClick={() => {
     window.print();
     saveBillToDB();
+     saveInvoiceForHotel();
   }}
   className="print-btn"
 >
