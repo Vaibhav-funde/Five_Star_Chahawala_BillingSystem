@@ -9,6 +9,8 @@ function Menu() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('All');
   const [sortOrder, setSortOrder] = useState('default');
+  const role = localStorage.getItem("role"); // "hotel" or "customer"
+
 
   // ✅ Fetch products from backend
   useEffect(() => {
@@ -64,8 +66,36 @@ function Menu() {
         <h4>₹{product.price}</h4>
         <p>{product.description}</p>
         <br />
-        <Link to="/chaid" state={product} className="btn order-btn">Add</Link>
-      </div>
+         {/* ✅ STOCK ONLY FOR HOTEL ROLE & COLD DRINKS */}
+{role === "hotel" && product.category?.name === "Cold Drinks" && (
+  <p className="stock">
+    Stock: {product.stock > 0 ? product.stock : "0"}
+  </p>
+)}
+
+<Link
+  to="/chaid"
+  state={product}
+  className={`btn order-btn ${
+    product.category?.name === "Cold Drinks" && product.stock === 0
+      ? "disabled"
+      : ""
+  }`}
+  onClick={e => {
+    if (
+      product.category?.name === "Cold Drinks" &&
+      product.stock === 0
+    ) {
+      e.preventDefault();
+      alert("Out of Stock");
+    }
+  }}
+
+>
+  Add
+</Link>
+
+          </div>
     ));
   };
 

@@ -88,25 +88,42 @@ function MenuTable() {
   };
 
   // Save bill to DB
-  const saveBillToDB = async () => {
-    const tableOrders = orders[activeTable] || [];
-    if (!tableOrders.length) return alert("No items to save!");
-    const soldItems = tableOrders.map(o => ({
-      tableNo: activeTable,
-      itemName: o.item.name,
-      quantity: o.qty,
-      price: o.item.price,
-      total: o.item.price * o.qty,
-      billDate: new Date().toISOString(),
-    }));
-    try {
-      await axios.post("http://localhost:8081/sales/add-multiple", soldItems);
-      alert("✅ Bill saved to Sales Database!");
-    } catch (err) {
-      console.error(err);
-      alert("❌ Could not store bill! Check backend logs.");
+ const saveBillToDB = async () => {
+  const tableOrders = orders[activeTable] || [];
+  if (!tableOrders.length) return alert("No items to save!");
+
+  const soldItems = tableOrders.map(o => ({
+    tableNo: activeTable,
+    itemName: o.item.name,
+    itemId: o.item.id,
+    quantity: o.qty,
+    price: o.item.price,
+    total: o.item.price * o.qty,
+    billDate: new Date().toISOString(),
+  }));
+
+  try {
+    // Save to Sales DB
+    await axios.post("http://localhost:8081/sales/add-multiple", soldItems);
+
+    // 🔹 Update Cold Drinks stock in backend
+    for (const o of tableOrders) {
+      if (o.item.category?.name === "Cold Drinks") {
+        await axios.post("http://localhost:8081/api/items/update-stock", {
+          itemId: o.item.id,
+          quantity: o.qty,
+          type: "subtract",
+        });
+      }
     }
-  };
+
+    alert("✅ Bill saved and stock updated!");
+  } catch (err) {
+    console.error(err);
+    alert("❌ Could not store bill or update stock!");
+  }
+};
+
 
   // Filtered items
  const getFilteredItems = () => {
@@ -203,6 +220,8 @@ const saveInvoice = async () => {
       {activeTable && (
         <div className="menu-bill-section">
 
+<div className="table-header">
+  <div className="table-header-left">
           <button className="backbtn" onClick={() => setActiveTable(null)}>
             ← Back to Tables
           </button>
@@ -212,6 +231,8 @@ const saveInvoice = async () => {
             <div className="tab-buttons">
               <button className={activeTab === "menu" ? "active-tab" : ""} onClick={() => setActiveTab("menu")}>Menu</button>
               <button className={activeTab === "bill" ? "active-tab" : ""} onClick={() => setActiveTab("bill")}>Bill</button>
+             </div>
+</div>
             </div>
           </div>
 
@@ -240,14 +261,46 @@ const saveInvoice = async () => {
                     <h4>₹{p.price}</h4>
                     <p>{p.description}</p>
                     
+   {/* Stock Display for Cold Drinks */}
+                    {p.category?.name === "Cold Drinks" && (
+                      <p className="stock">{p.stock > 0 ? `Stock: ${p.stock}` : "SOLD OUT"}</p>
+                    )}
 
                     <div className="qty-add-row">
                       <div className="qty-control">
-                        <button className="qty-btn" onClick={() => setQuantities(q => ({ ...q, [p.id]: Math.max(1, (q[p.id] || 1) - 1) }))}>−</button>
+                        <button
+                          className="qty-btn"
+                          onClick={() => setQuantities(q => ({ ...q, [p.id]: Math.max(1, (q[p.id] || 1) - 1) }))}
+                          disabled={p.category?.name === "Cold Drinks" && p.stock === 0}
+                        >−</button>
                         <span className="qty-value">{quantities[p.id] || 1}</span>
-                        <button className="qty-btn" onClick={() => setQuantities(q => ({ ...q, [p.id]: (q[p.id] || 1) + 1 }))}>+</button>
+                        <button
+                         className="qty-btn"
+  onClick={() => {
+    const currentQty = quantities[p.id] || 1;
+    if (p.category?.name === "Cold Drinks" && currentQty >= p.stock) {
+      alert(`Only ${p.stock} items available in stock`);
+      return;
+    }
+    setQuantities(q => ({ ...q, [p.id]: currentQty + 1 }));
+  }}
+  disabled={p.category?.name === "Cold Drinks" && p.stock === 0}
+                        >+</button>
                       </div>
-                      <button className="addbt add-inline" onClick={() => handleOrder(activeTable, p)}>ADD</button>
+                      <button
+                       className="addbt add-inline"
+  onClick={() => {
+    const qtyToAdd = quantities[p.id] || 1;
+    if (p.category?.name === "Cold Drinks" && qtyToAdd > p.stock) {
+      alert(`Only ${p.stock} items available in stock`);
+      return;
+    }
+    handleOrder(activeTable, p);
+  }}
+  disabled={p.category?.name === "Cold Drinks" && p.stock === 0}
+>
+  {p.category?.name === "Cold Drinks" && p.stock === 0 ? "Soldout" : "ADD"}
+                      </button>
                     </div>
                   </div>
                 ))}

@@ -9,7 +9,7 @@ function Header() {
   const [role, setRole] = useState(null);
   const [newOrders, setNewOrders] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-  const hideHeaderRoutes = ["/admin", "/admin-login"];
+  const hideHeaderRoutes = ["/admin", "/admin-login", "/sales",    "/admin-dashboard"];
 const location = useLocation(); 
 
   // 🔔 Fetch new orders (hotel)
@@ -76,7 +76,7 @@ if (hideHeaderRoutes.includes(location.pathname)) {
         {/* DESKTOP NAV */}
         <nav className="nav-links">
           <ul>
-            {role === "hotel" ? (
+            {role === "hotel" && (
               <>
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/menu">Menu</Link></li>
@@ -98,7 +98,9 @@ if (hideHeaderRoutes.includes(location.pathname)) {
                   </span>
                 </li>
               </>
-            ) : (
+              )}
+                {/* ================= NORMAL USER HEADER ================= */}
+            {(!role || role === "customer") && (
               <>
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/menu">Menu</Link></li>

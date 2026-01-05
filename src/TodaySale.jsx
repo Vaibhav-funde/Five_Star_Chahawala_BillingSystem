@@ -12,6 +12,14 @@ function TodaySale() {
   const [toDate, setToDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
+  
+
+ /* PAGINATION */
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 10;
+
+
+
 
   // Convert either yyyy-mm-dd -> dd-mm-yyyy OR pass-through if already dd-mm-yyyy
   
@@ -94,12 +102,20 @@ const fetchSales = useCallback(async () => {
     }
   }, [filterType]);
 
-  // filtered view for client-side search
   const filteredSales = sales.filter((s) =>
     s.itemName.toLowerCase().includes(searchText.toLowerCase())
   );
+  // filtered view for client-side search
+   useEffect(() => {
+    setCurrentPage(1);
+  }, [searchText, filterType, sales]);
 
-  const grandTotal = filteredSales.reduce((a, b) => a + (b.total || 0), 0);
+  const indexOfLast = currentPage * recordsPerPage;
+  const indexOfFirst = indexOfLast - recordsPerPage;
+  const currentRecords = filteredSales.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredSales.length / recordsPerPage);
+
+  const grandTotal = filteredSales.reduce((a, b) => a + b.total, 0)
 
   // Date range helpers for message display
   const getTodayRange = () => {
@@ -242,12 +258,13 @@ const exportPDF = () => {
   doc.save("Sales_Report.pdf");
 };
 
-  return (
-    <div className="sales-container">
-      <h2>📊 Sales Report</h2>
-    
+return (
+  <div className="sales-container">
+    <h2>📊 Sales Report</h2>
 
-      <div className="filter-box">
+    {/* ================= FILTER SECTION ================= */}
+    <div className="filter-box">
+      <div className="filter-left">
         <select
           value={filterType}
           onChange={(e) => setFilterType(e.target.value)}
@@ -277,9 +294,7 @@ const exportPDF = () => {
           </>
         )}
 
-        <button onClick={fetchSales} className="filter-btn">
-          Filter
-        </button>
+        <button onClick={fetchSales} className="filter-btn">Filter</button>
 
         <button
           onClick={() => {
@@ -294,30 +309,35 @@ const exportPDF = () => {
           Reset
         </button>
       </div>
+    </div>
 
-      <p className="record-info">{getRecordMessage()}</p>
+    {/* ================= CONDITIONAL CONTENT ================= */}
+    {loading ? (
+      <p>Loading...</p>
+    ) : filteredSales.length === 0 ? (
+      <p className="No-records">No records found</p>
+    ) : (
+      <>
+        {/* RECORD MESSAGE */}
+        <p className="record-info">{getRecordMessage()}</p>
 
-      <div className="top-actions">
-        <button onClick={exportExcel} className="excel-btn">
-          📘 Excel
-        </button>
-        <button onClick={exportPDF} className="pdf-btn">
-          📕 PDF
-        </button>
-        <input
-          type="text"
-          placeholder="Search Item..."
-          value={searchText}
-          className="search-input"
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-      </div>
+        {/* ACTION BUTTONS + SEARCH */}
+        <div className="top-actions">
+          <button onClick={exportExcel} className="excel-btn">📘 Excel</button>
+          <button onClick={exportPDF} className="pdf-btn">📕 PDF</button>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : filteredSales.length === 0 ? (
-        <p className="No-records">No records found.</p>
-      ) : (
+          <div className="search-right">
+            <input
+              type="text"
+              placeholder="Search Item..."
+              className="search-input"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* TABLE */}
         <table className="sales-table">
           <thead>
             <tr>
@@ -328,31 +348,36 @@ const exportPDF = () => {
               <th>Total</th>
             </tr>
           </thead>
-
           <tbody>
-            {filteredSales.map((s, i) => (
+            {currentRecords.map((s, i) => (
               <tr key={i}>
-                <td>{i + 1}</td>
+                <td>{indexOfFirst + i + 1}</td>
                 <td>{s.itemName}</td>
                 <td>₹{(s.total / s.quantity).toFixed(2)}</td>
                 <td>{s.quantity}</td>
                 <td>₹{s.total.toFixed(2)}</td>
               </tr>
             ))}
-
-            <tr className="grand-total">
-              <td colSpan="4">
-                <b>Grand Total</b>
-              </td>
-              <td>
-                <b>₹{grandTotal.toFixed(2)}</b>
-              </td>
-            </tr>
           </tbody>
         </table>
-      )}
-    </div>
-  );
-}
 
+<div className="grand-total-box">
+  <strong>Grand Total: </strong> ₹{grandTotal.toFixed(2)}
+</div>
+        {/* PAGINATION */}
+        <div className="pagination">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+            <button
+              className={n === currentPage ? "page-btn active" : "page-btn"}
+              onClick={() => setCurrentPage(n)}
+            >
+              {n}
+            </button>
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+);
+}
 export default TodaySale;

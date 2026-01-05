@@ -40,9 +40,10 @@ import AddAdvertisement from './AddAdvertisement';
 import CompletedOrders from './CompletedOrders';
 import AdminLogin from "./AdminLogin";
 import ManageAdvertisements from './ManageAdvertisements';
+import AddStocks from './AddStocks';
 
 function App() {
-  const role = localStorage.getItem("role");  // ✅ Get role here
+   const [role, setRole] = React.useState(localStorage.getItem("role"));
 
   return (
     <Router>
@@ -50,8 +51,10 @@ function App() {
       {/* Header show only for normal users */}
       {role !== "admin" &&<Header />}
 
-      {/* Sidebar show only for admin */}
-      {role === "admin" && <Sidebar />}
+     
+      {/* Sidebar only for admin */}
+     {role === "admin" && <Sidebar role={role} setRole={setRole} />}
+
 
       {/* Content area shifts right only for admin */}
       <div className={role === "admin" ? "content-with-sidebar" : ""}>
@@ -88,7 +91,8 @@ function App() {
           <Route path="/updateadd" element={<ManageAdvertisements />} />
           <Route path="/completedorders" element={<CompletedOrders />} />
           <Route path="/editcategory/:id" element={<EditCategory />} />
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/login" element={<AdminLogin setRole={setRole} />} />
+        <Route path="/addstocks" element={<AddStocks />} />
   
 
           <Route path="/viewcategory" element={<ViewCategory />} />

@@ -6,46 +6,52 @@ import img from "./Images/NewLogo.png";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      const res = await axios.get("http://localhost:8081/api/users/login", {
-        params: { email, password },
-      });
+      const res = await axios.post(
+        "http://localhost:8081/api/users/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
 
-      if (res.data.length > 0) {
-        const user = res.data[0];
-        alert(`✅ Login successful! Welcome ${user.name}`);
+      const user = res.data;
 
-        // 🚫 BLOCK ADMIN LOGIN HERE
+      // 🚫 BLOCK ADMIN LOGIN
       if (user.role === "admin") {
-        alert("❌ Admin cannot log in here. Please use admin login page.");
+        alert("❌ Admin cannot log in here. Use Admin Login page.");
+        setLoading(false);
         return;
       }
 
-        // Store user info
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("username", user.name);
-        localStorage.setItem("email", user.email); // ✅ store email
-        localStorage.setItem("role", user.role);
+      // ✅ SAVE USER DATA
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("username", user.name);
+      localStorage.setItem("email", user.email);
+      localStorage.setItem("role", user.role);
 
-        // Redirect based on role
-        if (user.role === "hotel") {
-          navigate("/hotel-dashboard");
-        }
-         else {
-          navigate("/");
-        }
+      alert(`✅ Login successful! Welcome ${user.name}`);
+
+      // 🔁 REDIRECT BASED ON ROLE
+      if (user.role === "hotel") {
+        navigate("/hotel-dashboard");
       } else {
-        alert("❌ Invalid email or password!");
+        navigate("/");
       }
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("❌ Login failed. Try again.");
+
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("❌ Invalid email or password");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,12 +60,14 @@ function Login() {
       <div className="login-container">
         <div className="login-box">
           <img src={img} alt="5 Star Chahawala" className="logo" />
-          <h2>Log in</h2>
+          <h2>Log In</h2>
+
           <form onSubmit={handleLogin}>
             <div className="input-group">
               <label>Email</label>
               <input
                 type="email"
+                placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -70,20 +78,24 @@ function Login() {
               <label>Password</label>
               <input
                 type="password"
+                placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
 
-            <button type="submit" className="btn">Log In</button>
+            <button type="submit" className="btn" disabled={loading}>
+              {loading ? "Logging in..." : "Log In"}
+            </button>
+
+            <p className="forgot-pass">
+              <Link to="/forgot-password">Forgot password?</Link>
+            </p>
 
             <p className="signup-link">
               Don’t have an account? <Link to="/signup">Sign Up</Link>
             </p>
-            <p className="forgot-pass">
-  <Link to="/forgot-password">Forgot password?</Link>
-</p>
           </form>
         </div>
       </div>

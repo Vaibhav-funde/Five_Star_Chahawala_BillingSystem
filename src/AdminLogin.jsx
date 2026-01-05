@@ -3,9 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import img from "./Images/NewLogo.png";
 
-function AdminLogin() {
+function AdminLogin({ setRole }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
  const handleAdminLogin = async (e) => {
@@ -18,23 +19,31 @@ function AdminLogin() {
 
     const user = res.data; // 👈 backend returns single object
 
-    if (!user || user.role !== "admin") {
-      alert("❌ Invalid credentials or not admin!");
-      return;
-    }
+      // ❌ Safety check
+      if (!user || user.role !== "admin") {
+        alert("❌ Invalid admin credentials");
+        setLoading(false);
+        return;
+      }
 
     // ✅ STORE ADMIN
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("role", user.role);
     localStorage.setItem("username", user.name);
+localStorage.setItem("role", user.role);
+ localStorage.setItem("role", "admin");
 
-    alert("✅ Admin login successful");
-    navigate("/sales"); // or your admin dashboard route
+      // 🔥 UPDATE APP STATE (IMPORTANT)
+      setRole("admin");
+
+navigate("/sales"); // or your admin dashboard route
   } catch (err) {
     console.error(err);
     alert("❌ Login failed");
   }
+    finally {
+      setLoading(false);
+    }
 };
 
 
@@ -66,7 +75,9 @@ function AdminLogin() {
               />
             </div>
 
-            <button className="btn">Login as Admin</button>
+            <button className="btn" disabled={loading}>
+              {loading ? "Logging in..." : "Login as Admin"}
+            </button>
           </form>
         </div>
       </div>
