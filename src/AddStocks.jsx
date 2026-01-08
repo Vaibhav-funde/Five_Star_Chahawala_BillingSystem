@@ -7,6 +7,8 @@ function AddStocks() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5; // Number of items per page
 
   // Fetch Cold Drinks
   const fetchColdDrinks = async () => {
@@ -48,13 +50,16 @@ function AddStocks() {
     }
   };
 
-  // Delete Item
-
-
   // Filter search results
   const filteredItems = items.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Pagination logic
+  const indexOfLast = currentPage * recordsPerPage;
+  const indexOfFirst = indexOfLast - recordsPerPage;
+  const currentRecords = filteredItems.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredItems.length / recordsPerPage);
 
   if (loading) return <p className="stock-loading">Loading Cold Drinks...</p>;
   if (!items.length) return <p className="stock-loading">No Cold Drinks found.</p>;
@@ -68,7 +73,10 @@ function AddStocks() {
         type="text"
         placeholder="Search cold drinks..."
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setCurrentPage(1); // Reset to first page on search
+        }}
         className="stock-search"
       />
 
@@ -82,14 +90,14 @@ function AddStocks() {
           </tr>
         </thead>
         <tbody>
-          {filteredItems.length === 0 ? (
+          {currentRecords.length === 0 ? (
             <tr>
               <td colSpan="4" className="stock-noresult">
                 No items match your search.
               </td>
             </tr>
           ) : (
-            filteredItems.map((item) => (
+            currentRecords.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>{item.name}</td>
@@ -108,11 +116,7 @@ function AddStocks() {
                   <button
                     className="stock-btn add-btn"
                     onClick={() =>
-                      handleUpdateStock(
-                        item.id,
-                        item.newStock || 0,
-                        "add"
-                      )
+                      handleUpdateStock(item.id, item.newStock || 0, "add")
                     }
                   >
                     Add
@@ -120,22 +124,32 @@ function AddStocks() {
                   <button
                     className="stock-btn subtract-btn"
                     onClick={() =>
-                      handleUpdateStock(
-                        item.id,
-                        item.newStock || 0,
-                        "subtract"
-                      )
+                      handleUpdateStock(item.id, item.newStock || 0, "subtract")
                     }
                   >
                     Subtract
                   </button>
-                
                 </td>
               </tr>
             ))
           )}
         </tbody>
       </table>
+
+      {/* Pagination Buttons */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+            <button
+              key={n}
+              className={n === currentPage ? "page-btn active" : "page-btn"}
+              onClick={() => setCurrentPage(n)}
+            >
+              {n}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import imgHero1 from './Images/BacgroudLogo.jpg';
+import imgHero2 from './Images/Hotel2.png'; 
 
 import img1 from './Images/MasalaChai.jpg'
 import img4 from './Images/Buy1.jpg'
@@ -13,26 +15,43 @@ import img8 from './Images/OrderOnline.jpg'
 function Home() {
     const [ads, setAds] = useState([]);
     const [showAd, setShowAd] = useState(true); // 
+ const [heroImage, setHeroImage] = useState(imgHero1); // state for hero image
+  
 
     useEffect(() => {
-  axios.get("http://localhost:8081/api/ads/active")
-    .then(res => setAds(res.data));
-}, []);
+        const heroImages = [imgHero1, imgHero2]; // array of hero images
+    axios.get("http://localhost:8081/api/ads/active")
+      .then(res => setAds(res.data));
+
+    // Hero image switching every 5 seconds
+    let index = 0;
+    const interval = setInterval(() => {
+      index = (index + 1) % heroImages.length;
+      setHeroImage(heroImages[index]);
+    }, 5000);
+
+    return () => clearInterval(interval); // cleanup interval
+  }, []);
 
     return (
         <div>
 
             {/* Hero Section */}
-            <section className="hero">
-                <div className="hero-content">
-                    <h1 className="Hedline">Hot & Delicious!</h1>
-                    <p className="Hedline">Chai time in Pathardi - the perfect way to beat the chill!.</p>
-                    <div className="buttons">
-                        <Link to="/cart" className="order-btns">Order Now</Link>
-                        <Link to="/menu" className="order-btns">View Menu</Link>
-                    </div>
-                </div>
-            </section>
+      <section 
+        className="hero"
+        style={{
+          background: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${heroImage}) center/cover no-repeat`
+        }}
+      >
+        <div className="hero-content">
+          <h1 className="Hedline">Hot & Delicious!</h1>
+          <p className="Hedline">Chai time in Pathardi - the perfect way to beat the chill!.</p>
+          <div className="buttons">
+            <Link to="/cart" className="order-btns">Order Now</Link>
+            <Link to="/menu" className="order-btns">View Menu</Link>
+          </div>
+        </div>
+      </section>
 
             {/* Featured Chai Section */}
             <section className="featured-chai">
@@ -127,7 +146,7 @@ function Home() {
                     <div className="offer-card">
                         <img src={img5} alt="Combo Deal"/>
                         <h3>Chai + Snacks Combo</h3>
-                        <p>Get a delicious chai and a snack for just $5.99.</p>
+                        <p>Get a delicious chai and a snack starting from ₹10.</p>
                         <Link to="/" className="btn">Grab Now</Link>
                     </div>
                     <div className="offer-card">
@@ -145,7 +164,7 @@ function Home() {
                 <div className="steps-container">
                     <div className="step">
                         <img src={img7} alt="Select Your Chai"/>
-                        <h3>1. Select Your Orders</h3>
+                        <h3>1. Select Your Order</h3>
                         <p>Choose from our variety of delicious chai flavors.</p>
                     </div>
                     <div className="step">
@@ -155,7 +174,7 @@ function Home() {
                     </div>
                     <div className="step">
                         <img src={img9} alt="Enjoy"/>
-                        <h3>3. Enjoy Your Chai</h3>
+                        <h3>3. Enjoy Your Order</h3>
                         <p>Relax and enjoy your freshly brewed chai, delivered to you.</p>
                     </div>
                 </div>

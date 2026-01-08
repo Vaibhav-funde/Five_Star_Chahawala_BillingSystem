@@ -2645,6 +2645,53 @@ color: #000; }
   margin-bottom: 5px;
 }
 
+.edit-btn:hover { opacity: 0.9; }
+.delete-btn:hover { opacity: 0.9; }
+/* Header row */
+.list-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Search bar */
+.search-input {
+  order: 2;   /* Move to right */
+  margin-left: auto; /* Push search to right */
+}
+
+/* Right-side buttons */
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Buttons */
+.add-category-btn,
+/* 🔁 Swap positions */
+.add-item-btn {
+  order: 1;   /* Move to left */
+}
+
+
+
+.add-item-btn {
+  background-color: #15966f;
+  color: rgb(10, 10, 10);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.add-category-btn:hover,
+.add-item-btn:hover {
+  opacity: 0.9;
+}
+
+
 /* Responsive design */
 @media (max-width: 900px) {
   .item-grid {
@@ -3151,134 +3198,177 @@ textarea {
 /* AllUsers.css */
 
 /* Wrapper */
+/* =========================
+   GLOBAL WRAPPER
+========================= */
 .all-users-wrapper {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    background-color: #151414; /* Black background */
-    min-height: 100vh;
-    color: #fff; /* Default text color white */
-    margin-top: 20px !important;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #151414;
+  min-height: 100vh;
+  color: #fff;
+  margin-top: 20px;
 }
 
-/* Heading */
-.all-users-wrapper h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #fff;
+/* =========================
+   TOP BAR (TITLE + TOTAL USERS)
+========================= */
+.users-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-/* Table */
-.all-users-wrapper table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #111; /* Dark table background */
-    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-/* Table header */
-.all-users-wrapper th {
-    background-color: #222; /* Darker header */
-    color: #fff;
-    padding: 12px;
-    text-align: left;
-}
-
-/* Table cells */
-.all-users-wrapper td {
-    padding: 12px;
-    border-bottom: 1px solid #333;
-    color: #fff;
-}
-
-/* Zebra stripe rows */
-.all-users-wrapper tr:nth-child(even) {
-    background-color: #1a1a1a; /* Slightly lighter dark */
-}
-
-/* Hover effect */
-.all-users-wrapper tr:hover {
-    background-color: #333;
-}
-
-/* Delete button */
-.all-users-wrapper button {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    background-color: red;
-    color: #fff;
-}
-
-.all-users-wrapper button:hover {
-    opacity: 0.8;
-}
-
-/* No users message */
-.all-users-wrapper p {
-    text-align: center;
-    font-size: 16px;
-    color: #fff;
-}
-.search {
-  margin-bottom: 15px;
-  display: flex;          /* Align label and input horizontally */
-  align-items: center;    /* Vertically center */
-  gap: 10px;              /* Space between label and input */
-  justify-content: flex-end; /* Align to right if needed */
-}
-
-.search-label {
+/* Page Title */
+.all-users-title {
+  font-size: 26px;
   font-weight: bold;
-  color: #fff; /* Adjust to match dark background */
+  margin: 0;
+  text-align: left;
 }
 
-.search-input {
-  padding: 8px 12px;      /* Top/bottom 8px, left/right 12px */
-  width: 250px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  outline: none;
-  margin-bottom: 10px;
-
-}
-
-
-/* total no userss*/
+/* =========================
+   TOTAL USERS CARD
+========================= */
 .total-users-card {
   background: #1e1d1d;
-  padding: 20px;
-  border-radius: 15px;
-  width: 300px;
-  color: white;
+  padding: 15px 25px;
+  border-radius: 12px;
+  width: 260px;
+  color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   text-align: center;
-  margin: 20px auto;
   border: 1px solid #be35c8;
+  margin: 0; /* IMPORTANT: keeps it on right */
   transition: transform 0.3s ease;
 }
 
 .total-users-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
 }
 
 .total-users-title {
-  font-size: 22px;
-  margin-bottom: 10px;
+  font-size: 16px;
   font-weight: bold;
   color: #ffcccb;
 }
 
 .total-users-count {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: bold;
   color: #ff4d4d;
-  margin-top: 10px;
+  margin-top: 8px;
 }
+
+/* =========================
+   SEARCH BAR
+========================= */
+.search {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.search-label {
+  font-weight: bold;
+  color: #fff;
+}
+
+.search-input {
+  padding: 8px 12px;
+  width: 250px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  color: #fff;
+}
+
+/* =========================
+   TABLE
+========================= */
+.all-users-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #111;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.all-users-wrapper th {
+  background-color: #222;
+  color: #fff;
+  padding: 12px;
+  text-align: left;
+}
+
+.all-users-wrapper td {
+  padding: 12px;
+  border-bottom: 1px solid #333;
+  color: #fff;
+}
+
+.all-users-wrapper tr:nth-child(even) {
+  background-color: #1a1a1a;
+}
+
+.all-users-wrapper tr:hover {
+  background-color: #333;
+}
+
+/* =========================
+   DELETE BUTTON
+========================= */
+.all-users-wrapper button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: red;
+  color: #fff;
+  transition: opacity 0.3s ease;
+}
+
+.all-users-wrapper button:hover {
+  opacity: 0.8;
+}
+
+/* =========================
+   EMPTY / LOADING TEXT
+========================= */
+.all-users-wrapper p {
+  text-align: center;
+  font-size: 16px;
+  color: #fff;
+}
+
+/* =========================
+   RESPONSIVE (MOBILE)
+========================= */
+@media (max-width: 768px) {
+  .users-top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .total-users-card {
+    width: 100%;
+  }
+
+  .search {
+    justify-content: flex-start;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+}
+
 
 /* UserReview.css */
 .payment-section { margin: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; }

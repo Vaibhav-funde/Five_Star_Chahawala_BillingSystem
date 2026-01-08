@@ -136,13 +136,21 @@ if (hideHeaderRoutes.includes(location.pathname)) {
       {/* ================= MOBILE SIDEBAR ================= */}
       <div className={`mobile-sidebar ${menuOpen ? "open" : ""}`}>
         <button className="close-btn" onClick={() => setMenuOpen(false)}>✖</button>
+ {/* 🔹 COMMON LINKS */}
+  <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+  <Link to="/menu" onClick={() => setMenuOpen(false)}>Menu</Link>
 
-        <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-        <Link to="/menu" onClick={() => setMenuOpen(false)}>Menu</Link>
-        <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
-        <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
-        <Link to="/rating" onClick={() => setMenuOpen(false)}>Rating</Link>
-        <Link to="/cart" onClick={() => setMenuOpen(false)}>Cart</Link>
+  {/* 🔹 CUSTOMER LOGGED IN */}
+  {role === "customer" && (
+    <>
+      <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
+      <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+      <Link to="/rating" onClick={() => setMenuOpen(false)}>Rating</Link>
+      <Link to="/cart" onClick={() => setMenuOpen(false)}>
+        Cart ({cartCount})
+      </Link>
+    </>
+  )}
 
         {role === "hotel" && (
           <Link to="/hotel-dashboard" onClick={() => setMenuOpen(false)}>

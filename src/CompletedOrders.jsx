@@ -6,6 +6,8 @@ function CompletedOrders() {
   const [invoices, setInvoices] = useState([]);
   const [search, setSearch] = useState("");
   const [dateFilter, setDateFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5; // Adjust number of invoices per page
 
   useEffect(() => {
     axios
@@ -40,11 +42,18 @@ function CompletedOrders() {
     return true;
   };
 
-  // 🔍 Search + Date filter combined
-  const filteredInvoices = invoices.filter((inv) =>
-    inv.username.toLowerCase().includes(search.toLowerCase()) &&
-    filterByDate(inv.invoiceDate)
+  // 🔍 Filtered invoices (search + date)
+  const filteredInvoices = invoices.filter(
+    (inv) =>
+      inv.username.toLowerCase().includes(search.toLowerCase()) &&
+      filterByDate(inv.invoiceDate)
   );
+
+  // 📄 Pagination logic
+  const indexOfLast = currentPage * recordsPerPage;
+  const indexOfFirst = indexOfLast - recordsPerPage;
+  const currentRecords = filteredInvoices.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredInvoices.length / recordsPerPage);
 
   return (
     <div className="completed-container">
@@ -57,13 +66,19 @@ function CompletedOrders() {
           placeholder="🔍 Search customer name..."
           className="search-box"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(1); // Reset page on search
+          }}
         />
 
         <select
           className="date-filter"
           value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value)}
+          onChange={(e) => {
+            setDateFilter(e.target.value);
+            setCurrentPage(1); // Reset page on filter change
+          }}
         >
           <option value="all">All</option>
           <option value="today">Today</option>
@@ -75,39 +90,54 @@ function CompletedOrders() {
       {filteredInvoices.length === 0 ? (
         <p className="no-data">No invoices found</p>
       ) : (
-        filteredInvoices.map((inv) => (
-          <div key={inv.id} className="invoice-card">
-            <div className="invoice-header">
-              <h4>Customer: {inv.username}</h4>
-              <p>Date: {new Date(inv.invoiceDate).toLocaleDateString()}</p>
-            </div>
+        <>
+          {currentRecords.map((inv) => (
+            <div key={inv.id} className="invoice-card">
+              <div className="invoice-header">
+                <h4>Customer: {inv.username}</h4>
+                <p>Date: {new Date(inv.invoiceDate).toLocaleDateString()}</p>
+              </div>
 
-            <table className="invoice-table">
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Price</th>
-                  <th>Qty</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {inv.items.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.itemName}</td>
-                    <td>₹{item.price}</td>
-                    <td>{item.qty}</td>
-                    <td>₹{item.total}</td>
+              <table className="invoice-table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
                   </tr>
-                ))}
-                <tr className="grandtotal">
-                  <td colSpan="3"><strong>Grand Total</strong></td>
-                  <td><strong>₹{inv.grandTotal}</strong></td>
-                </tr>
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {inv.items.map((item) => (
+                    <tr key={item.id}>
+                      <td>{item.itemName}</td>
+                      <td>₹{item.price}</td>
+                      <td>{item.qty}</td>
+                      <td>₹{item.total}</td>
+                    </tr>
+                  ))}
+                  <tr className="grandtotal">
+                    <td colSpan="3"><strong>Grand Total</strong></td>
+                    <td><strong>₹{inv.grandTotal}</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
+
+          {/* PAGINATION BUTTONS */}
+          <div className="pagination">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+              <button
+                key={n}
+                className={n === currentPage ? "page-btn active" : "page-btn"}
+                onClick={() => setCurrentPage(n)}
+              >
+                {n}
+              </button>
+            ))}
           </div>
-        ))
+        </>
       )}
     </div>
   );

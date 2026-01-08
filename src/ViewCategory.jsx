@@ -7,6 +7,8 @@ function ViewCategory() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 10; // 10 categories per page
   const navigate = useNavigate();
 
   // Fetch categories
@@ -27,7 +29,7 @@ function ViewCategory() {
     fetchCategories();
   }, []);
 
-  // DELETE FUNCTION (WORKING INLINE)
+  // DELETE FUNCTION
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       axios
@@ -45,18 +47,33 @@ function ViewCategory() {
     cat.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Reset page when search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, categories]);
+
+  // PAGINATION LOGIC
+  const indexOfLast = currentPage * recordsPerPage;
+  const indexOfFirst = indexOfLast - recordsPerPage;
+  const currentCategories = filteredCategories.slice(
+    indexOfFirst,
+    indexOfLast
+  );
+  const totalPages = Math.ceil(filteredCategories.length / recordsPerPage);
+
   if (loading) return <p>Loading categories...</p>;
   if (!categories.length) return <p>No categories found.</p>;
 
   return (
     <div className="view-container">
       <h2>All Categories</h2>
+
       <button
-                    className="add-btn"
-                    onClick={() => navigate(`/addcategory`)}
-                  >
-                    Add Category
-                  </button>
+        className="add-btn"
+        onClick={() => navigate(`/addcategory`)}
+      >
+        Add Category
+      </button>
 
       {/* Search Bar */}
       <input
@@ -70,32 +87,30 @@ function ViewCategory() {
       <table className="view-table">
         <thead>
           <tr>
+            <th>Sr.No</th>
             <th>ID</th>
             <th>Category Name</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filteredCategories.length === 0 ? (
+          {currentCategories.length === 0 ? (
             <tr>
-              <td colSpan="3">No categories match your search.</td>
+              <td colSpan="4">No categories match your search.</td>
             </tr>
           ) : (
-            filteredCategories.map((cat) => (
+            currentCategories.map((cat, i) => (
               <tr key={cat.id}>
+                <td>{indexOfFirst + i + 1}</td>
                 <td>{cat.id}</td>
                 <td>{cat.name}</td>
                 <td>
-                  
-
                   <button
                     className="edit-btn"
                     onClick={() => navigate(`/editcategory/${cat.id}`)}
                   >
                     Edit
                   </button>
-
-                  {/* Updated Delete Button */}
                   <button
                     className="delete-btn"
                     onClick={() => handleDelete(cat.id)}
@@ -108,6 +123,21 @@ function ViewCategory() {
           )}
         </tbody>
       </table>
+
+      {/* PAGINATION BUTTONS */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+            <button
+              key={n}
+              className={n === currentPage ? "page-btn active" : "page-btn"}
+              onClick={() => setCurrentPage(n)}
+            >
+              {n}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

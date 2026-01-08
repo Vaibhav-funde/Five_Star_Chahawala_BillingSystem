@@ -79,7 +79,7 @@ function App() {
           <Route path="/crud" element={<Crud />} />
           <Route path="/additem" element={<AddItem />} />
           <Route path="/itemlist" element={<ItemList />} />
-          <Route path="/updateitem/:id" element={<UpdateItem />} />
+         <Route path="/update-item/:id" element={<UpdateItem />} />
           <Route path="/deleteitem" element={<DeleteItem />} />
           <Route path="/sales" element={<TodaySale />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

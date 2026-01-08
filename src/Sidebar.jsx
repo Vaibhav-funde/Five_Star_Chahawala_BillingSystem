@@ -24,11 +24,9 @@ function Sidebar({ role, setRole }) {
 
       <ul className="sidebar-menu">
         <li><Link to="/sales">Sales Report</Link></li>
-        <li><Link to="/crud">Items Management</Link></li>
-        <li><Link to="/total">Total Users</Link></li>
+        <li><Link to="/itemlist">Items Management</Link></li>
         <li><Link to="/allusers">All Users</Link></li>
         <li><Link to="/customermsg">Customer Messages</Link></li>
-        <li><Link to="/addcategory">Add Category</Link></li>
         <li><Link to="/viewcategory">View Category</Link></li>
         <li><Link to="/addAd">Add Advertisement</Link></li>
         <li><Link to="/updateadd">Manage Advertisements</Link></li>
