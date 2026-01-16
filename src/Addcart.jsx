@@ -10,6 +10,7 @@ function Addcart() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
+  const [paymentMode, setPaymentMode] = useState(""); // cash | online
   const navigate = useNavigate();
 
 
@@ -166,12 +167,27 @@ const saveBillToDB = async () => {
   };
 
   // 📌 PLACE ORDER + SEND INVOICE
-  const handlePlaceOrder = async () => {
-    if (cartItems.length === 0) {
+// 🔑 Load Razorpay SDK
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      if (window.Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  // 🔗 PLACE ORDER FUNCTION (used by both cash & online)
+  const handlePlaceOrder = async (finalPaymentMode) => {
+    if (!cartItems.length) {
       alert("⚠️ Your cart is empty!");
       return;
     }
-
     if (!email) {
       alert("❌ Email not found! Please login again.");
       return;
@@ -188,6 +204,7 @@ const saveBillToDB = async () => {
       totalAmount: subtotal,
       orderDate: new Date().toISOString().slice(0, 19),
       status: "pending",
+     paymentMode: finalPaymentMode, // save actual value
     };
 
     try {
@@ -200,9 +217,8 @@ const saveBillToDB = async () => {
         alert("❌ Failed to save order!");
         return;
       }
-       generateInvoicePDF(); 
-     
 
+      generateInvoicePDF();
 
       await fetch("http://localhost:8081/orders/send-invoice", {
         method: "POST",
@@ -220,6 +236,67 @@ const saveBillToDB = async () => {
     }
   };
 
+  // 💳 ONLINE PAYMENT HANDLER
+ const handleOnlinePayment = async () => {
+  if (!email) {
+    alert("❌ Please login again");
+    return;
+  }
+
+  setPaymentMode("online");
+
+  const loaded = await loadRazorpay();
+  if (!loaded) {
+    alert("❌ Razorpay SDK failed");
+    return;
+  }
+
+  const orderRes = await fetch("http://localhost:8081/payment/create-order", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ amount: subtotal }),
+});
+
+const orderText = await orderRes.text();
+const orderData = JSON.parse(orderText);
+
+
+
+
+  // 2️⃣ Razorpay Checkout
+  const options = {
+    key: "rzp_test_S3pDiRKDcsb5sA",
+    amount: orderData.amount,
+    currency: "INR",
+    name: "5 Star Chahawala",
+    description: "Food Order Payment",
+    order_id: orderData.id,
+
+    handler: async function (response) {
+      // ✅ Payment success (verified by Razorpay)
+      alert("✅ Payment Successful");
+
+      await handlePlaceOrder("online"); // save order AFTER payment
+    },
+
+    prefill: {
+      name: username,
+      email: email,
+    },
+
+    theme: { color: "#7B3F00" },
+  };
+
+  const rzp = new window.Razorpay(options);
+  rzp.open();
+};
+
+  // 💵 CASH PAYMENT HANDLER
+  const handleCashSelect = () => {
+    setPaymentMode("cash");
+     handlePlaceOrder();  
+    alert("💵 Cash Selected. Click Place Order to confirm.");
+  };
   if (cartItems.length === 0) {
     return (
       <div className="bill-container empty">
@@ -288,6 +365,18 @@ const saveBillToDB = async () => {
       </div>
 
       <footer className="bill-footer">
+        
+ 
+      {/* CUSTOMER PAYMENT OPTIONS */}
+      {role === "customer" && (
+        <>
+          <button onClick={handleOnlinePayment} className="checkout-btn">💳 Online Payment & Place Order</button>
+         
+          {paymentMode === "cash" && (
+            <button onClick={handleCashSelect} className="checkout-btn">💵 Cash Payment & 🛒 Place Order</button>
+          )}
+        </>
+      )}
         {role === "hotel" && (
           <button
   onClick={() => {
@@ -300,9 +389,7 @@ const saveBillToDB = async () => {
   🖨 Print & Save Bill
 </button>
         )}
-        <button onClick={handlePlaceOrder} className="checkout-btn">
-          🛒 Place Order & Send Invoice
-        </button>
+        
       </footer>
     </div>
      </div>

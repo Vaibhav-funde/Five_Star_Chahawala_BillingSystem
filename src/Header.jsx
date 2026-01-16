@@ -99,30 +99,39 @@ if (hideHeaderRoutes.includes(location.pathname)) {
                 </li>
               </>
               )}
-                {/* ================= NORMAL USER HEADER ================= */}
-            {(!role || role === "customer") && (
-              <>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/menu">Menu</Link></li>
-                <li><Link to="/about">About</Link></li>
-                <li><Link to="/contact">Contact</Link></li>
-                <li><Link to="/rating">Rating</Link></li>
-                <li>
-                  <Link to="/cart" className="order-btn">
-                    🛒 Cart ({cartCount})
-                  </Link>
-                </li>
-                <li>
-                  {username ? (
-                    <span className="logout" onClick={handleLogout}>
-                      Logout 👨🏻‍💻
-                    </span>
-                  ) : (
-                    <Link to="/login" className="logout">Login</Link>
-                  )}
-                </li>
-              </>
-            )}
+              
+                {/* ================= NOT LOGGED IN ================= */}
+{!username && (
+  <>
+    <li><Link to="/">Home</Link></li>
+    <li><Link to="/menu">Menu</Link></li>
+    <li>
+      <Link to="/login" className="logout">Login</Link>
+    </li>
+  </>
+)}
+
+{/* ================= CUSTOMER LOGGED IN ================= */}
+{username && role === "customer" && (
+  <>
+    <li><Link to="/">Home</Link></li>
+    <li><Link to="/menu">Menu</Link></li>
+    <li><Link to="/about">About</Link></li>
+    <li><Link to="/contact">Contact</Link></li>
+    <li><Link to="/rating">Rating</Link></li>
+    <li>
+      <Link to="/cart" className="order-btn">
+        🛒 Cart ({cartCount})
+      </Link>
+    </li>
+    <li>
+      <span className="logout" onClick={handleLogout}>
+        Logout 👨🏻‍💻
+      </span>
+    </li>
+  </>
+)}
+
           </ul>
         </nav>
 

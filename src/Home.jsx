@@ -60,14 +60,14 @@ function Home() {
 
                     <div className="chai-card">
                         <img src={img1} alt="Masala Chai"/>
-                        <h3 className="item">Chaha</h3>
+                        <h3 className="item">Chai</h3>
                         <p>Aromatic blend of spices with a strong tea base.</p><br/>
                         <Link to="/menu" className="btn order-btn">Order Now</Link>
                     </div>
 
                     <div className="chai-card">
                         <img src="https://www.nescafe.com/in/sites/default/files/2023-08/1064x1064.jpg" alt="Coffees" />
-                        <h3>Coffees</h3>
+                        <h3>Coffee</h3>
                         <p>Life begins after coffee.</p><br/>
                         <Link to="/menu" className="btn order-btn">Order Now</Link>
                     </div>
@@ -80,7 +80,7 @@ function Home() {
 
                   <div className="chai-card">
              <img src="https://www.gianisicecream.com/wp-content/uploads/2023/10/Sundae-and-Scoops-image-1.png" alt="Coffees" />
-                        <h3>Ice-Creams</h3>
+                        <h3>Ice-Cream</h3>
                         <p>"I scream, you scream, we all scream for ice cream!" - ...</p><br/>
                         <Link to="/menu" className="btn order-btn">Order Now</Link>
                     </div>

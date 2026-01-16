@@ -213,6 +213,12 @@ function OrderCheck() {
                         hour12: true
                       })}
                   </h4>
+                   <h4>
+  Payment: <strong>
+    {userOrders[0].paymentMode === "online" ? "online" : "Cash"}
+  </strong>
+</h4>
+
                 </div>     
                 <table className="orders-table">
                   <thead>
