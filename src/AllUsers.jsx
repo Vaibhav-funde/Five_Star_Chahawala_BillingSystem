@@ -97,7 +97,6 @@ function AllUsers() {
             <thead>
               <tr>
                 <th>Sr.No</th>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -108,7 +107,6 @@ function AllUsers() {
               {currentUsers.map((user, i) => (
                 <tr key={user.id}>
                   <td>{indexOfFirst + i + 1}</td>
-                  <td>{user.id}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.role}</td>

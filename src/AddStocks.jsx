@@ -83,7 +83,7 @@ function AddStocks() {
       <table className="stock-table">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Sr.No</th>
             <th>Name</th>
             <th>Stock</th>
             <th>Actions</th>
@@ -97,9 +97,9 @@ function AddStocks() {
               </td>
             </tr>
           ) : (
-            currentRecords.map((item) => (
+           currentRecords.map((item, index) => (
               <tr key={item.id}>
-                <td>{item.id}</td>
+               <td>{indexOfFirst + index + 1}</td>
                 <td>{item.name}</td>
                 <td>{item.stock ?? 0}</td>
                 <td className="stock-actions">

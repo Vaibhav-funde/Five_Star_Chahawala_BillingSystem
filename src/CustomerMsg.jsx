@@ -84,7 +84,7 @@ function CustomerMsg() {
             <thead>
               <tr>
                 <th>Sr.No</th>
-                <th>ID</th>
+             
                 <th>Name</th>
                 <th>Email</th>
                 <th>Message</th>
@@ -94,7 +94,7 @@ function CustomerMsg() {
               {currentMessages.map((msg, i) => (
                 <tr key={msg.id}>
                   <td>{indexOfFirst + i + 1}</td>
-                  <td>{msg.id}</td>
+
                   <td>{msg.username}</td>
                   <td>{msg.email}</td>
                   <td>{msg.message}</td>

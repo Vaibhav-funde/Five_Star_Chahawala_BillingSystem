@@ -88,7 +88,7 @@ function ViewCategory() {
         <thead>
           <tr>
             <th>Sr.No</th>
-            <th>ID</th>
+          
             <th>Category Name</th>
             <th>Actions</th>
           </tr>
@@ -102,7 +102,7 @@ function ViewCategory() {
             currentCategories.map((cat, i) => (
               <tr key={cat.id}>
                 <td>{indexOfFirst + i + 1}</td>
-                <td>{cat.id}</td>
+               
                 <td>{cat.name}</td>
                 <td>
                   <button
