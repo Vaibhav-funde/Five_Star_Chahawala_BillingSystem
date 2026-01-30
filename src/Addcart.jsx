@@ -375,6 +375,9 @@ const orderData = JSON.parse(orderText);
           {paymentMode === "cash" && (
             <button onClick={handleCashSelect} className="checkout-btn">💵 Cash Payment & 🛒 Place Order</button>
           )}
+          {paymentMode !== "cash" && (
+            <button onClick={handleCashSelect} className="checkout-btn">💵 Cash Payment& 🛒 Place Order</button>
+          )}  
         </>
       )}
         {role === "hotel" && (
