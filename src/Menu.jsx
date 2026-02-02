@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './App.css';
 
 function Menu() {
@@ -10,7 +10,9 @@ function Menu() {
   const [filterType, setFilterType] = useState('All');
   const [sortOrder, setSortOrder] = useState('default');
   const role = localStorage.getItem("role"); // "hotel" or "customer"
-
+const location = useLocation();
+const queryParams = new URLSearchParams(location.search);
+const urlSearch = queryParams.get("search") || "";
 
   // ✅ Fetch products from backend
   useEffect(() => {
@@ -24,31 +26,37 @@ function Menu() {
 
   // 🔍 Search + Filter + Sort logic
   useEffect(() => {
-    let updated = [...products];
+  let updated = [...products];
 
-    // Search
-    if (searchTerm) {
-      updated = updated.filter(product =>
-        (product?.name || "").toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
+  // 🔍 Search from URL OR input box
+  const finalSearch = urlSearch || searchTerm;
 
-    // Filter by category
-    if (filterType !== "All") {
-      updated = updated.filter(product =>
-        (product?.category?.name || "").toLowerCase() === filterType.toLowerCase()
-      );
-    }
+  if (finalSearch) {
+    updated = updated.filter(product =>
+      (product?.name || "")
+        .toLowerCase()
+        .includes(finalSearch.toLowerCase())
+    );
+  }
 
-    // Sort by price
-    if (sortOrder === "asc") {
-      updated.sort((a, b) => a.price - b.price);
-    } else if (sortOrder === "desc") {
-      updated.sort((a, b) => b.price - a.price);
-    }
+  // Filter by category
+  if (filterType !== "All") {
+    updated = updated.filter(product =>
+      (product?.category?.name || "")
+        .toLowerCase() === filterType.toLowerCase()
+    );
+  }
 
-    setFiltered(updated);
-  }, [searchTerm, filterType, sortOrder, products]);
+  // Sort
+  if (sortOrder === "asc") {
+    updated.sort((a, b) => a.price - b.price);
+  } else if (sortOrder === "desc") {
+    updated.sort((a, b) => b.price - a.price);
+  }
+
+  setFiltered(updated);
+
+}, [searchTerm, filterType, sortOrder, products, urlSearch]);
 
   // Extract unique categories for dropdown
   const categories = ["All", ...Array.from(new Set(products.map(p => p.category?.name)))];

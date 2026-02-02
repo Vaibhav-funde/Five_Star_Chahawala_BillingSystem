@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation,useNavigate } from "react-router-dom";
 import axios from "axios";
 import img from "./Images/NewLogo.png";
 
@@ -11,6 +11,20 @@ function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const hideHeaderRoutes = ["/admin", "/admin-login", "/sales",    "/admin-dashboard"];
 const location = useLocation(); 
+const [search, setSearch] = useState("");
+const navigate = useNavigate();
+
+ 
+
+
+  // ================= HANDLE SEARCH =================
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (search.trim() !== "") {
+      navigate(`/menu?search=${search}`);
+      setSearch("");
+    }
+  };
 
   // 🔔 Fetch new orders (hotel)
   const fetchNewOrders = () => {
@@ -71,7 +85,16 @@ if (hideHeaderRoutes.includes(location.pathname)) {
           <img src={img} alt="5 Star Chahawala" />
         </div>
 
-       
+       {/* 🔎 SEARCH BAR */}
+<form className="search-bar" onSubmit={handleSearch}>
+  <input
+    type="text"
+    placeholder="Search chai, coffee..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
+  <button type="submit">🔍</button>
+</form>
 
         {/* DESKTOP NAV */}
         <nav className="nav-links">
@@ -102,6 +125,7 @@ if (hideHeaderRoutes.includes(location.pathname)) {
               
                 {/* ================= NOT LOGGED IN ================= */}
 {!username && (
+  
   <>
     <li><Link to="/">Home</Link></li>
     <li><Link to="/menu">Menu</Link></li>
@@ -114,6 +138,7 @@ if (hideHeaderRoutes.includes(location.pathname)) {
 {/* ================= CUSTOMER LOGGED IN ================= */}
 {username && role === "customer" && (
   <>
+  
     <li><Link to="/">Home</Link></li>
     <li><Link to="/menu">Menu</Link></li>
     <li><Link to="/about">About</Link></li>
@@ -137,6 +162,15 @@ if (hideHeaderRoutes.includes(location.pathname)) {
 
         {/* ✅ MOBILE ICONS */}
         <div className="mobile-only-icons">
+          <form className="mobile-search" onSubmit={handleSearch}>
+  <input
+    type="text"
+    placeholder="Search chai..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
+   <button type="submit">🔍</button>
+</form>
           <Link to="/cart" className="cart-icon">🛒 {cartCount}</Link>
           <button className="menu-btn" onClick={() => setMenuOpen(true)}>☰</button>
         </div>

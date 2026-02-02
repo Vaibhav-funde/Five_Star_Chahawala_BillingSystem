@@ -117,6 +117,43 @@ nav ul li a:hover {
   margin: auto;
   padding: auto;
 }
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #000;          /* Pure Black */
+  border: 1px solid #dd8c13;    /* Soft border */
+  border-radius: 25px;
+  overflow: hidden;
+  margin: 0 20px;
+}
+
+.search-bar input {
+  border: none;
+  padding: 8px 14px;
+  outline: none;
+  width: 200px;
+  background: #000;          /* Black background */
+  color: #fff;               /* White text */
+}
+
+.search-bar input::placeholder {
+  color: #aaa;               /* Light gray placeholder */
+}
+
+.search-bar button {
+  border: none;
+  background: #111;          /* Dark black button */
+  color: #fff;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.search-bar button:hover {
+  background: #222;          /* Slight lighter on hover */
+}
+
+
 
 /* new */ 
 
@@ -511,6 +548,60 @@ nav ul li a:hover {
     .username{
       margin-top: 15px;
 }
+  /* Hide Desktop Search */
+  .search-bar {
+    display: none;
+  }
+/* Mobile Search Container */
+.mobile-search {
+  width: 150px;              /* Increased slightly to fit both */
+  max-width: 250px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  background: #000;
+  border-radius: 20px;
+  border: 1px solid #e7aa0f;
+  overflow: hidden;         /* Keeps the button inside the rounded corners */
+  margin-right: 10px;
+}
+
+/* Input Field */
+.mobile-search input {
+  flex: 1;
+  min-width: 0;             /* Important: allows input to shrink to make room for button */
+  padding: 5px 10px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 13px;
+  outline: none;
+}
+
+/* Search Button inside bar */
+.mobile-search button {
+  background: #212020;      /* Changed to your gold color so it stands out */
+  color: #000;              /* Dark icon on gold background */
+  height: 100%;             /* Fills the height of the bar */
+  padding: 0 12px;          /* Adjusted padding */
+  cursor: pointer;
+  font-size: 14px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.mobile-search button:hover {
+  background: #fff;         /* Subtle hover effect */
+}
+
+/* 🔥 Focus Effect on the container */
+.mobile-search:focus-within {
+  border: 1px solid #ffffff; 
+}
+
 .auth-container {
   margin-top: 0; /* or smaller value */
 }
